@@ -1,0 +1,33 @@
+{
+  "name": "document-manager",
+  "version": "1.0.0",
+  "description": "a document management system",
+  "main": "index.js",
+  "dependencies": {
+    "eslint": "^3.16.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.16.1",
+    "eslint-config-airbnb-base": "^11.1.0",
+    "eslint-plugin-import": "^2.2.0"
+  },
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-nrotimi/document-manager.git"
+  },
+  "keywords": [
+    "git",
+    "commit",
+    "dcoument",
+    "npm"
+  ],
+  "author": "Rotimi Ifedayo Nelson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andela-nrotimi/document-manager/issues"
+  },
+  "homepage": "https://github.com/andela-nrotimi/document-manager#readme"
+}
