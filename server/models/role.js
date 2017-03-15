@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: {
         args: true,
-        msg: 'role already exist for this user'
+        msg: 'role already exist'
       },
       validate: {
         is: {
