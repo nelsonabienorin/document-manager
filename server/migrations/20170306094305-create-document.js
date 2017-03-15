@@ -1,4 +1,3 @@
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Documents', {
@@ -10,6 +9,18 @@ module.exports = {
       },
       title: {
         type: Sequelize.STRING
+      },
+      content: {
+        type: Sequelize.TEXT
+      },
+      access: {
+        type: Sequelize.STRING
+      },
+      ownerRoleId: {
+        type: Sequelize.INTEGER
+      },
+      ownerId: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

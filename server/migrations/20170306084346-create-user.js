@@ -8,6 +8,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userName: {
+        unique: true,
         type: Sequelize.STRING
       },
       password: {
@@ -20,10 +21,16 @@ module.exports = {
         type: Sequelize.STRING
       },
       email: {
+        unique: true,
         type: Sequelize.STRING
       },
       roleId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Roles',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
