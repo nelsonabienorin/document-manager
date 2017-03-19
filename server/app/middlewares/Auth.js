@@ -345,7 +345,7 @@ const Auth = {
       };
     }
     if (`${req.baseUrl}${req.route.path}` === '/users/') {
-      console.log(req.baseUrl) // => /users
+      console.log(req.baseUrl); // => /users
       query.where = Helper.isAdmin(req.tokenDecode.roleId)
         ? {}
         : { id: req.tokenDecode.userId };

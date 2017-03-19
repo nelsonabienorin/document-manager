@@ -109,5 +109,3 @@ const userSchema = (sequelize, DataTypes) => {
   return User;
 };
 export default userSchema;
-
-
