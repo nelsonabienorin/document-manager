@@ -18,3 +18,6 @@ coverage
 .coveralls.yml
 .vscode
 .env
+server/app/models/*
+server/migrations/*
+server/seeders/*
