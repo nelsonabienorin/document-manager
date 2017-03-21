@@ -38,8 +38,7 @@
     "nodemon": "^1.11.0"
   },
   "scripts": {
-    "start:dev": "babel-watch server.js",
-    "test": "NODE_ENV=test  mocha server/tests/api/roles.spec.js"
+    "start:dev": "babel-watch server.js"
   },
   "repository": {
     "type": "git",
