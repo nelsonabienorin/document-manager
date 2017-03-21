@@ -11,7 +11,7 @@ describe('ROUTE GET /', () => {
     .end((err, res) => {
       expect(res.status).to.equal(200);
       expect(res.body.message)
-      .to.equal();
+      .to.equal('Welcome to Document Manager 1.0');
       done();
     });
   });
