@@ -97,19 +97,19 @@ const Auth = {
     if (!userName) {
       return res.status(400)
         .send({
-          message: 'Enter a valid username'
+          message: 'Enter a valid userName'
         });
     }
     if (!firstName) {
       return res.status(400)
         .send({
-          message: 'Enter a valid firstname'
+          message: 'Enter a valid firstName'
         });
     }
     if (!lastName) {
       return res.status(400)
         .send({
-          message: 'Enter a valid lastname'
+          message: 'Enter a valid lastName'
         });
     }
     if (!email) {
@@ -144,7 +144,7 @@ const Auth = {
             if (newUser) {
               return res.status(409)
                 .send({
-                  message: 'username already exists'
+                  message: 'userName already exists'
                 });
             }
             userName = req.body.userName;
