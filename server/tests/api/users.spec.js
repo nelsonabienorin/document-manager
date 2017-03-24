@@ -10,6 +10,7 @@ const expect = chai.expect;
 let newAdminUser, adminToken, regularToken, regularUser;
 const emptyValue = ['userName', 'lastName', 'firstName', 'password', 'email'];
 const uniqueField = ['userName', 'email'];
+const adminUser = helper.adminUser1;
 
 describe('User API :', () => {
   before((done) => {
@@ -22,9 +23,12 @@ describe('User API :', () => {
     }])
       .then((role) => {
         helper.adminUser1.roleId = role[0].id;
-        db.User.create(helper.adminUser1)
+        db.User.create(adminUser)
           .then((admin) => {
             newAdminUser = admin.dataValues;
+             console.log(adminUser);
+             console.log('=========');
+            console.log(admin);
             done();
           });
       });
@@ -38,7 +42,7 @@ describe('User API :', () => {
   describe('New Users', () => {
     describe('Create User', () => {
       it('should create a user', (done) => {
-        superRequest.post('/users')
+        superRequest.post('/api/users')
           .send(helper.regularUser1)
           .end((error, response) => {
             regularUser = response.body.user;
@@ -58,7 +62,7 @@ describe('User API :', () => {
         const uniqueUser = Object.assign({}, helper.firstUser);
         uniqueUser[field] = helper.regularUser1[field];
         it(`should fail when already existing ${field} is supplied`, (done) => {
-          superRequest.post('/users')
+          superRequest.post('/api/users')
             .send(uniqueUser)
             .end((err, res) => {
               expect(res.status).to.equal(409);
@@ -72,7 +76,7 @@ describe('User API :', () => {
         const invalidUser = Object.assign({}, helper.secondUser);
         invalidUser[field] = '';
         it(`should fail when ${field} is invalid`, (done) => {
-          superRequest.post('/users')
+          superRequest.post('/api/users')
             .send(invalidUser)
             .end((err, res) => {
               expect(res.status).to.equal(400);
@@ -84,7 +88,7 @@ describe('User API :', () => {
       });
 
       it('should fail if password is less than 8', (done) => {
-        superRequest.post('/users')
+        superRequest.post('/api/users')
           .send(helper.invalidPasswordUser)
           .end((err, res) => {
             expect(res.status).to.equal(400);
@@ -96,7 +100,7 @@ describe('User API :', () => {
 
       it('should not allow admin user to sign up', (done) => {
         helper.firstUser.roleId = 1;
-        superRequest.post('/users')
+        superRequest.post('/api/users')
           .send(helper.firstUser)
           .end((err, res) => {
             expect(res.status).to.equal(403);
@@ -109,19 +113,22 @@ describe('User API :', () => {
       // ///
     });
   });
-});
+
 // //
 describe('Existing users', () => {
   describe('Login /users/login', () => {
     it('should allow admin user to login', (done) => {
-      superRequest.post('/users/login')
-        .send(helper.adminUser1)
+      superRequest.post('/api/users/login')
+        .send(adminUser)
         .end((err, res) => {
-             console.log('******');
+
+             console.log('****FROM USERS TEST**');
+             console.log(adminUser);
+             console.log(res.body);
             console.log(res.body.token);
             console.log(res.message);
             console.log(res.message);
-            console.log('****');
+            console.log('END****');
           adminToken = res.body.token;
           expect(res.status).to.equal(200);
           expect(res.body.token).to.not.equal(null);
@@ -132,10 +139,13 @@ describe('Existing users', () => {
     });
 
     it('should allow other users to login', (done) => {
-      superRequest.post('/users/login')
-        .send(helper.regularUser)
+      superRequest.post('/api/users/login')
+        .send(helper.regularUser1)
         .end((err, res) => {
+          console.log(' BEFORE regularToken assignment');
           regularToken = res.body.token;
+          console.log(res.body);
+          console.log('********');
           expect(res.status).to.equal(200);
           expect(res.body.token).to.not.equal(null);
           expect(res.body.message).to
@@ -145,7 +155,7 @@ describe('Existing users', () => {
     });
 
     it('should not allow unregistered users to login', (done) => {
-      superRequest.post('/users/login')
+      superRequest.post('/api/users/login')
         .send(helper.firstUser)
         .end((err, res) => {
           expect(res.status).to.equal(401);
@@ -156,7 +166,7 @@ describe('Existing users', () => {
     });
 
     it('should not allow login with invalid password', (done) => {
-      superRequest.post('/users/login')
+      superRequest.post('/api/users/login')
         .send({
           email: newAdminUser.email,
           password: 'invalid'
@@ -171,7 +181,7 @@ describe('Existing users', () => {
 
     it('should not allow login when email and password is not provided',
       (done) => {
-        superRequest.post('/users/login')
+        superRequest.post('/api/users/login')
           .send({})
           .end((err, res) => {
             expect(res.status).to.equal(400);
@@ -184,7 +194,7 @@ describe('Existing users', () => {
 
   describe('Get all users, GET /users ', () => {
     it('should return verification failed if no token is supply', (done) => {
-      superRequest.get('/users')
+      superRequest.get('/api/users')
         .set({})
         .end((err, res) => {
           expect(res.status).to.equal(400);
@@ -195,7 +205,7 @@ describe('Existing users', () => {
     });
 
     it('should return invalid token if token is invalid', (done) => {
-      superRequest.get('/users')
+      superRequest.get('/api/users')
         .set({
           'x-access-token': 'hello-andela-tia'
         })
@@ -209,11 +219,15 @@ describe('Existing users', () => {
 
     it(`should return users own profile,
       when the requester is a regular user`, (done) => {
-      superRequest.get('/users')
+        console.log('AM HERE TO RETURN USERS OWN PROFILE');
+        console.log(regularToken);
+      superRequest.get('/api/users')
         .set({
           'x-access-token': regularToken
         })
         .end((err, res) => {
+          console.log('&&&&&&&&&&&&&&&&');
+          console.log(res.body);
           expect(res.status).to.equal(200);
           expect(res.body.message).to
             .equal('You have successfully retrived all users');
@@ -225,7 +239,7 @@ describe('Existing users', () => {
 
     it(`should return all users profile,
       when the requester is an admin user`, (done) => {
-      superRequest.get('/users')
+      superRequest.get('/api/users')
         .set({
           'x-access-token': adminToken
         })
@@ -237,4 +251,5 @@ describe('Existing users', () => {
         });
     });
   });
+});
 });

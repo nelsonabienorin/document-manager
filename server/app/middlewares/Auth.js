@@ -167,7 +167,8 @@ const Auth = {
    * @returns {void|Object} response object or void
    * */
   validateLoginInput(req, res, next) {
-    console.log('I CAME HERE TO VALIDATE LOGIN INPUT');
+    console.log('I CAME HERE TO VALIDATE LOGIN INPUT IN AUTH');
+    console.log(req.body);
     if (!req.body.password || !req.body.email) {
       return res.status(400)
         .send({

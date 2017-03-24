@@ -15,9 +15,9 @@ app.use(logger('dev'));
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/users', indexRoute.userRouter);
-app.use('/roles', indexRoute.roleRouter);
-app.use('/documents', indexRoute.docRouter);
+app.use('/api/users', indexRoute.userRouter);
+app.use('/api/roles', indexRoute.roleRouter);
+app.use('/api/documents', indexRoute.docRouter);
 
 // Setup a default catch-all route that sends back a
 // welcome message in JSON format
