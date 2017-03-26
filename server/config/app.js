@@ -1,6 +1,7 @@
 import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
+import path from 'path';
 import * as indexRoute from '../routes/';
 
 // Require our routes into the application
@@ -21,8 +22,12 @@ app.use('/api/documents', indexRoute.docRouter);
 
 // Setup a default catch-all route that sends back a
 // welcome message in JSON format
-app.get('*', (req, res) => res.status(200).send({
-  message: 'Welcome to Document Manager 1.0',
-}));
+app.use(express.static(path.join(__dirname, '../../client/public')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/public/index.html'));
+});
+// app.get('*', (req, res) => res.status(200).send({
+//   message: 'Welcome to Document Manager 1.0',
+// }));
 
 export default app;

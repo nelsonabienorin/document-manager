@@ -10,7 +10,7 @@ export const createUser = user => ({
 // action creators
 export const getUserSuccess = (users) => {
   return {
-    type: types.LOAD_USER_SUCCESS,
+    type: types.USER_SUCCESS,
     users
   };
 };
@@ -21,7 +21,7 @@ export const createUserSuccess = users => ({
 });
 
 export const userApi = () => {
-  const { token } = JSON.parse(localStorage.getItem('currentUser'));
+  const { token } = JSON.parse(localStorage.getItem('x-access-token'));
   return fetch('/users', {
     method: 'GET',
     headers: {
@@ -42,10 +42,43 @@ export const userApi = () => {
     });
 };
 
-// export const userSaver = (user) => {
-//   const newBody = JSON.stringify(user);
-//   return fetch ('/api/users',{
-//     method : 'POST',
-//     headers: {}
-//   })
-// }
+export const userSaver = (user) => {
+  const newBody = JSON.stringify(user);
+  return fetch('/api/users', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json'
+    },
+    body: newBody
+  })
+  .then((response) => {
+    if (response.status >= 400) {
+      throw new Error('Bad response from server');
+    }
+    return response.json();
+  })
+  .then(user => user)
+  .catch((error) => {
+    throw error;
+  });
+};
+
+export const saveUser = userJson => dispatch => userSaver(userJson)
+  .then((savedUser) => {
+    dispatch(createUserSuccess(savedUser));
+  }).catch((error) => {
+    throw (error);
+  });
+
+export const fetchUsers = () => {
+  console.log('I got to fetchUser in act');
+  return (dispatch) => {
+    return userApi()
+      .then((users) => {
+        console.log(users, 'fetch');
+        return dispatch(getUserSuccess(users));
+      })
+  .catch((error) => { throw error; });
+  };
+};
+
