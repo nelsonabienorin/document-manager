@@ -4,6 +4,5 @@ import app from './server/config/app'; // The express app that was created
 
 const port = parseInt(process.env.PORT, 10) || 8000;
 app.set('port', port);
-
 const server = http.createServer(app);
 server.listen(port);

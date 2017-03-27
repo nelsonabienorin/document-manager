@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import * as types from './actionTypes';
+import request from 'superagent';
 
 // parameter user
 export const createUser = user => ({
@@ -43,34 +44,56 @@ export const userApi = () => {
 };
 
 export const userSaver = (user) => {
-  const newBody = JSON.stringify(user);
-  return fetch('/api/users', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json'
-    },
-    body: newBody
+  console.log('am in user saver');
+  console.log(user);
+  request
+  .post('/api/users')
+  .send(user)
+  .set('Accept', 'application/json')
+  .end(function(err, res){
+    console.log(res);
+    // Calling the end function will send the request
   })
-  .then((response) => {
-    if (response.status >= 400) {
-      throw new Error('Bad response from server');
-    }
-    return response.json();
-  })
-  .then(user => user)
-  .catch((error) => {
-    throw error;
-  });
+  // console.log(user);
+  // const newBody = JSON.stringify(user);
+  //  console.log(newBody);
+  // return fetch('/api/users', {
+  //   method: 'POST',
+  //   headers: {
+  //     Accept: 'application/json'
+  //   },
+  //   body: user
+  // })
+  // .then((response) => {
+  //   if (response.status >= 400) {
+  //     throw new Error('Bad response from server');
+  //   }
+  //   return response.json();
+  // })
+  // .then(user => user)
+  // .catch((error) => {
+  //   throw error;
+  // });
 };
 
-export const saveUser = userJson => dispatch => userSaver(userJson)
-  .then((savedUser) => {
-    console.log('YOU WANT TO SAVE');
-    dispatch(createUserSuccess(savedUser));
-  }).catch((error) => {
-    throw (error);
-  });
 
+  // .then((savedUser) => {
+
+  //   console.log('YOU WANT TO SAVE');
+  //   dispatch(createUserSuccess(savedUser));
+  // }).catch((error) => {
+  //   throw (error);
+  // });
+export const saveUser = (userJson) => {
+  return dispatch => {
+     userSaver(userJson);
+      // .then((savedUser) => {
+      //   dispatch(createUserSuccess(savedUser));
+      // }).catch((error) => {
+      //   throw (error);
+      // })
+  }
+}
 export const fetchUsers = () => {
   console.log('I got to fetchUser in act');
   return (dispatch) => {

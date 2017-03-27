@@ -3,6 +3,7 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import path from 'path';
 import * as indexRoute from '../routes/';
+import morgan from 'morgan';
 
 // Require our routes into the application
 // This have to come before the app.get
@@ -16,6 +17,7 @@ app.use(logger('dev'));
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(morgan('combined'));
 app.use('/api/users', indexRoute.userRouter);
 app.use('/api/roles', indexRoute.roleRouter);
 app.use('/api/documents', indexRoute.docRouter);

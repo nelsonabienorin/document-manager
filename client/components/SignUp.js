@@ -2,8 +2,18 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import * as userActions from '../actions/userAction';
 
-const Register = ({ user, onSave, onChange, loading, errors }) => (
-    <main>
+
+const Register = ({ saveUser }) => {
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const firstName = e.target.firstname.value;
+    const lastName = e.target.lastname.value;
+    const userName = e.target.username.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    saveUser({ firstName, userName, lastName, email, password });
+}
+  return ( <main>
       <center>
         <div className="section"></div>
         <h5 className="indigo-text">Create account</h5>
@@ -12,7 +22,7 @@ const Register = ({ user, onSave, onChange, loading, errors }) => (
         <div className="container">
           <div className="z-depth-1 grey lighten-4 row">
 
-            <form className="col s12" method="post">
+            <form className="col s12" method="post" onSubmit={onSubmit}>
               <div className='row'>
                 <div className='col s12'>
                 </div>
@@ -62,22 +72,23 @@ const Register = ({ user, onSave, onChange, loading, errors }) => (
               <br />
               <center>
                 <div className='row'>
-                  <button type='submit' name='btn_login' className='col s12 btn btn-large waves-effect indigo'>Login</button>
+                  <button type='submit' name='btn_login' className='col s12 btn btn-large waves-effect indigo'>Signup</button>
                 </div>
               </center>
             </form>
           </div>
         </div>
-        <a href="#!">Login</a>
+        Already a user? <a href="#!">Login</a>
       </center>
 
       <div className="section"></div>
       <div className="section"></div>
     </main>
   );
+};
 
-const mapDispatchToProps = (dispatch) => ({
-  saveUser: (user) => dispatch(userActions.saveUser(user))
+const mapDispatchToProps = dispatch => ({
+  saveUser: user => dispatch(userActions.saveUser(user))
 });
 
 const mapStateToProps = (state, ownProps) => ({
