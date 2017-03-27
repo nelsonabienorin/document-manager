@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
 
 const renderIfLoggedIn = () => {
-  const user = JSON.parse(localStorage.getItem('currentUser'));
+  const user = JSON.parse(localStorage.getItem('x-access-token'));
   if (user && user.userIdentity) {
     return (
 			<ul id="nav-mobile" className="right hide-on-med-and-down">
@@ -39,7 +39,7 @@ const renderIfLoggedIn = () => {
 				<Link to="/login" activeClassName="active" className="right">Login</Link>
 			</li>
 			<li>
-				<Link to="/signups" activeClassName="active" className="right">Sign up</Link>
+				<Link to="/signup" activeClassName="active" className="right">Sign up</Link>
 			</li>
 		</ul>
   );

@@ -17149,6 +17149,7 @@ var userSaver = exports.userSaver = function userSaver(user) {
 var saveUser = exports.saveUser = function saveUser(userJson) {
   return function (dispatch) {
     return userSaver(userJson).then(function (savedUser) {
+      console.log('YOU WANT TO SAVE');
       dispatch(createUserSuccess(savedUser));
     }).catch(function (error) {
       throw error;
@@ -17193,12 +17194,24 @@ var _LandingPage = __webpack_require__(245);
 
 var _LandingPage2 = _interopRequireDefault(_LandingPage);
 
+var _Header = __webpack_require__(244);
+
+var _Header2 = _interopRequireDefault(_Header);
+
+var _SignUp = __webpack_require__(582);
+
+var _SignUp2 = _interopRequireDefault(_SignUp);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import Login from './components/Login';
-// import Register from './components/SignUp';
 console.log('ROUTES BABA');
-exports.default = _react2.default.createElement(_reactRouter.Route, { path: '/', component: _LandingPage2.default });
+// import Login from './components/Login';
+exports.default = _react2.default.createElement(
+  _reactRouter.Route,
+  { path: '/', component: _App2.default },
+  _react2.default.createElement(_reactRouter.IndexRoute, { component: _LandingPage2.default }),
+  _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _SignUp2.default })
+);
 
 /***/ }),
 /* 240 */
@@ -17323,7 +17336,7 @@ var _reactRouter = __webpack_require__(102);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var renderIfLoggedIn = function renderIfLoggedIn() {
-	var user = JSON.parse(localStorage.getItem('currentUser'));
+	var user = JSON.parse(localStorage.getItem('x-access-token'));
 	if (user && user.userIdentity) {
 		return _react2.default.createElement(
 			'ul',
@@ -17419,7 +17432,7 @@ var renderIfLoggedIn = function renderIfLoggedIn() {
 			null,
 			_react2.default.createElement(
 				_reactRouter.Link,
-				{ to: '/signups', activeClassName: 'active', className: 'right' },
+				{ to: '/signup', activeClassName: 'active', className: 'right' },
 				'Sign up'
 			)
 		)
@@ -17636,11 +17649,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // import '../node_modules/toastr/build/toastr.min.css'; X2
 
-// // import '../node_modules/materialize-css/dist/css/materialize.min.css';
+//import '../node_modules/materialize-css/dist/css/materialize.min.css';
 // // import '../client/styles/custom.scss';
 (0, _userAction.fetchUsers)();
 // // import {createRole, fetchRoles, saveRole} from './actions/roleAction';
 // // import '../node_modules/toastr/build/toastr.min.css';
+
+// import materialize from 'materialize-css';
 
 console.log(_reactRouter.browserHistory);
 _reactDom2.default.render(_react2.default.createElement(
@@ -40147,6 +40162,191 @@ function symbolObservablePonyfill(root) {
   };
   self.fetch.polyfill = true;
 })(typeof self !== 'undefined' ? self : undefined);
+
+/***/ }),
+/* 582 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(10);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(243);
+
+var _userAction = __webpack_require__(238);
+
+var userActions = _interopRequireWildcard(_userAction);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Register = function Register(_ref) {
+  var user = _ref.user,
+      onSave = _ref.onSave,
+      onChange = _ref.onChange,
+      loading = _ref.loading,
+      errors = _ref.errors;
+  return _react2.default.createElement(
+    'main',
+    null,
+    _react2.default.createElement(
+      'center',
+      null,
+      _react2.default.createElement('div', { className: 'section' }),
+      _react2.default.createElement(
+        'h5',
+        { className: 'indigo-text' },
+        'Create account'
+      ),
+      _react2.default.createElement('div', { className: 'section' }),
+      _react2.default.createElement(
+        'div',
+        { className: 'container' },
+        _react2.default.createElement(
+          'div',
+          { className: 'z-depth-1 grey lighten-4 row' },
+          _react2.default.createElement(
+            'form',
+            { className: 'col s12', method: 'post' },
+            _react2.default.createElement(
+              'div',
+              { className: 'row' },
+              _react2.default.createElement('div', { className: 'col s12' })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'row' },
+              _react2.default.createElement(
+                'div',
+                { className: 'input-field col s12' },
+                _react2.default.createElement('input', { className: 'validate', type: 'text', name: 'firstname', id: 'firstname' }),
+                _react2.default.createElement(
+                  'label',
+                  { htmlFor: 'email' },
+                  'Enter your firstname'
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'row' },
+              _react2.default.createElement(
+                'div',
+                { className: 'input-field col s12' },
+                _react2.default.createElement('input', { className: 'validate', type: 'text', name: 'lastname', id: 'lastname' }),
+                _react2.default.createElement(
+                  'label',
+                  { htmlFor: 'email' },
+                  'Enter your lastname'
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'row' },
+              _react2.default.createElement(
+                'div',
+                { className: 'input-field col s12' },
+                _react2.default.createElement('input', { className: 'validate', type: 'text', name: 'username', id: 'username' }),
+                _react2.default.createElement(
+                  'label',
+                  { htmlFor: 'email' },
+                  'Enter your username'
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'row' },
+              _react2.default.createElement(
+                'div',
+                { className: 'input-field col s12' },
+                _react2.default.createElement('input', { className: 'validate', type: 'email', name: 'email', id: 'email' }),
+                _react2.default.createElement(
+                  'label',
+                  { htmlFor: 'email' },
+                  'Enter your email'
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'row' },
+              _react2.default.createElement(
+                'div',
+                { className: 'input-field col s12' },
+                _react2.default.createElement('input', { className: 'validate', type: 'password', name: 'password', id: 'password' }),
+                _react2.default.createElement(
+                  'label',
+                  { htmlFor: 'password' },
+                  'Enter your password'
+                )
+              ),
+              _react2.default.createElement(
+                'label',
+                null,
+                _react2.default.createElement(
+                  'a',
+                  { className: 'pink-text', href: '#!' },
+                  _react2.default.createElement(
+                    'b',
+                    null,
+                    'Forgot Password?'
+                  )
+                )
+              )
+            ),
+            _react2.default.createElement('br', null),
+            _react2.default.createElement(
+              'center',
+              null,
+              _react2.default.createElement(
+                'div',
+                { className: 'row' },
+                _react2.default.createElement(
+                  'button',
+                  { type: 'submit', name: 'btn_login', className: 'col s12 btn btn-large waves-effect indigo' },
+                  'Login'
+                )
+              )
+            )
+          )
+        )
+      ),
+      _react2.default.createElement(
+        'a',
+        { href: '#!' },
+        'Login'
+      )
+    ),
+    _react2.default.createElement('div', { className: 'section' }),
+    _react2.default.createElement('div', { className: 'section' })
+  );
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    saveUser: function saveUser(user) {
+      return dispatch(userActions.saveUser(user));
+    }
+  };
+};
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    users: state.users
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Register);
 
 /***/ })
 /******/ ]);

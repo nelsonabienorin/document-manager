@@ -65,6 +65,7 @@ export const userSaver = (user) => {
 
 export const saveUser = userJson => dispatch => userSaver(userJson)
   .then((savedUser) => {
+    console.log('YOU WANT TO SAVE');
     dispatch(createUserSuccess(savedUser));
   }).catch((error) => {
     throw (error);
