@@ -4,7 +4,6 @@ import * as userActions from '../actions/userAction';
 
 class Login extends React.Component {
   constructor(props) {
-    console.log('hi React');
     super(props);
     this.state = {
       email: '',
