@@ -10,10 +10,7 @@ import Register from './components/SignUp';
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={LandingPage} />
-
     <Route path = "/signup" component={Register}/>
     <Route path = "/login" component={Login}/>
-
   </Route>
-
 );

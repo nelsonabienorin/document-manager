@@ -1,7 +1,7 @@
-const dmsUser = localStorage.getItem('dmsUser');
+const dmsUser = localStorage.getItem('x-access-token');
 export default {
   roles: [],
-  documents: ['hello world'],
+  documents: [],
   user: {
     firstName: dmsUser ? dmsUser.firstName : '',
     lastName: dmsUser ? dmsUser.lastName : '',

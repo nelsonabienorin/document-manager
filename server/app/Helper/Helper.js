@@ -63,6 +63,7 @@ const Helper = {
       firstname: data.firstName,
       lastname: data.lastName,
       email: data.email,
+      roleId: data.roleId
     };
   },
   /**

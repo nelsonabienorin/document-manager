@@ -5,6 +5,7 @@ import * as userActions from '../actions/userAction';
 
 
 const Register = (props) => {
+  const { saveUser } = props;
   console.log('props', props);
   const onSubmit = (e) => {
     e.preventDefault();
@@ -14,8 +15,7 @@ const Register = (props) => {
     const email = e.target.email.value;
     const password = e.target.password.value;
     const user = { firstName, userName, lastName, email, password };
-    // const dummyUser = {firstName: 'Azeez', lastName: 'Olaniran', token: 'eirejvnaierhfahaewirheaweihrhearihrer'};
-    userActions.signUp(props.dispatch, user);
+    saveUser(user);
   }
   return ( <main>
       <center>
@@ -90,16 +90,15 @@ const Register = (props) => {
     </main>
   );
 };
-
+// we map our dispatch to custom saveUser props
 const mapDispatchToProps = dispatch => ({
   saveUser: user => dispatch(userActions.saveUser(user))
 });
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
-    user: state.user,
-    documents: state.documents
+    user: state.user
   };
 };
 
-export default connect(mapStateToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
