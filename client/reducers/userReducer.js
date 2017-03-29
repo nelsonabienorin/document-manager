@@ -1,14 +1,14 @@
 import * as types from '../actions/actionTypes';
 import initialState from './initialState';
 
-const userReducer = (state = initialState, action) => {
+const userReducer = (state = initialState.user, action) => {
   switch (action.type) {
-    case types.CREATE_USER:
+    case types.CREATE_USER_SUCCESS:
       return Object.assign({}, state, action.user);
     case types.LOAD_USER_SUCCESS:
-      return Object.assign({}, state, action.user);
+      return {};
     case types.UPDATE_USER_SUCCESS:
-      return [...state.filter(user => user.id !== action.user.id), action.user];
+      return {};
     case types.CURRENT_USER:
       return action.user;
     default:

@@ -2,14 +2,14 @@
   "development": {
     "username": "rotimiifedayonelson",
     "password": "rotimiifedayonelson",
-    "database": "docmanager_db",
+    "database": "doc_db",
     "host": "127.0.0.1",
-    "port": 5432,
+    "port": 5431,
     "dialect": "postgres"
   },
   "test": {
-    "username": "rotimiifedayonelson",
-    "password": "rotimiifedayonelson",
+    "username": "qrotimiifedayonelson",
+    "password": "qrotimiifedayonelson",
     "database": "doc_managerdb_test",
     "host": "127.0.0.1",
     "dialect": "postgres"

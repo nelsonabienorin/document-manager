@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import documents from './documentReducer';
 import roles from './roleReducer';
-import users from './userReducer';
+import user from './userReducer';
 
 const rootReducer = combineReducers({
   roles,
-  users,
+  user,
   documents
 });
 export default rootReducer;

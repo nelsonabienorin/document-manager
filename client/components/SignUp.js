@@ -1,9 +1,11 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import request from 'superagent';
 import * as userActions from '../actions/userAction';
 
 
-const Register = ({ saveUser }) => {
+const Register = (props) => {
+  console.log('props', props);
   const onSubmit = (e) => {
     e.preventDefault();
     const firstName = e.target.firstname.value;
@@ -11,8 +13,10 @@ const Register = ({ saveUser }) => {
     const userName = e.target.username.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
-    saveUser({ firstName, userName, lastName, email, password });
-}
+    const user = { firstName, userName, lastName, email, password };
+    // const dummyUser = {firstName: 'Azeez', lastName: 'Olaniran', token: 'eirejvnaierhfahaewirheaweihrhearihrer'};
+    userActions.signUp(props.dispatch, user);
+  }
   return ( <main>
       <center>
         <div className="section"></div>
@@ -72,13 +76,13 @@ const Register = ({ saveUser }) => {
               <br />
               <center>
                 <div className='row'>
-                  <button type='submit' name='btn_login' className='col s12 btn btn-large waves-effect indigo'>Signup</button>
+                  <button type='submit' name='btn_login' className='col s12 btn btn-large waves-effect blue darken-2'>Signup</button>
                 </div>
               </center>
             </form>
           </div>
         </div>
-        Already a user? <a href="#!">Login</a>
+        Already a user? <a href="/login">Login</a>
       </center>
 
       <div className="section"></div>
@@ -91,8 +95,11 @@ const mapDispatchToProps = dispatch => ({
   saveUser: user => dispatch(userActions.saveUser(user))
 });
 
-const mapStateToProps = (state, ownProps) => ({
-  users: state.users
-});
+const mapStateToProps = (state, ownProps) => {
+  return {
+    user: state.user,
+    documents: state.documents
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps)(Register);

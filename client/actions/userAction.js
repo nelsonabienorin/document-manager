@@ -16,10 +16,26 @@ export const getUserSuccess = (users) => {
   };
 };
 
-export const createUserSuccess = users => ({
+export const createUserSuccess = user => ({
   type: types.CREATE_USER_SUCCESS,
-  users
+  user
 });
+
+export const signUp = (dispatch, user) => {
+  request
+  .post('/api/users')
+  .send(user)
+  .end(function(err, res) {
+    if (err) {
+      return console.log('Error :', err)
+    }
+    const createdUser = Object.assign({}, res.body.user, { token: res.body.token });
+    console.log('created user: ', createdUser);
+    // update localstorage;
+    localStorage.setItem('dms_user', createdUser);
+    dispatch(createUserSuccess(createdUser));
+  });
+}
 
 export const userApi = () => {
   const { token } = JSON.parse(localStorage.getItem('x-access-token'));
@@ -46,54 +62,24 @@ export const userApi = () => {
 export const userSaver = (user) => {
   console.log('am in user saver');
   console.log(user);
-  request
+
+   request
   .post('/api/users')
   .send(user)
-  .set('Accept', 'application/json')
   .end(function(err, res){
-    console.log(res);
+    console.log(err, 'error');
+    console.log(res, 'response object');
+    console.log(res.body.message);
     // Calling the end function will send the request
-  })
-  // console.log(user);
-  // const newBody = JSON.stringify(user);
-  //  console.log(newBody);
-  // return fetch('/api/users', {
-  //   method: 'POST',
-  //   headers: {
-  //     Accept: 'application/json'
-  //   },
-  //   body: user
-  // })
-  // .then((response) => {
-  //   if (response.status >= 400) {
-  //     throw new Error('Bad response from server');
-  //   }
-  //   return response.json();
-  // })
-  // .then(user => user)
-  // .catch((error) => {
-  //   throw error;
-  // });
-};
-
-
-  // .then((savedUser) => {
-
-  //   console.log('YOU WANT TO SAVE');
-  //   dispatch(createUserSuccess(savedUser));
-  // }).catch((error) => {
-  //   throw (error);
-  // });
-export const saveUser = (userJson) => {
-  return dispatch => {
-     userSaver(userJson);
-      // .then((savedUser) => {
-      //   dispatch(createUserSuccess(savedUser));
-      // }).catch((error) => {
-      //   throw (error);
-      // })
-  }
+  });
 }
+
+export const saveUser = userJson => dispatch => userSaver(userJson)
+  .then((savedUser) => {
+    dispatch(createUserSuccess(savedUser));
+  }).catch((error) => {
+    throw (error);
+  });
 export const fetchUsers = () => {
   console.log('I got to fetchUser in act');
   return (dispatch) => {

@@ -5,7 +5,7 @@ const renderIfLoggedIn = () => {
   const user = JSON.parse(localStorage.getItem('x-access-token'));
   if (user && user.userIdentity) {
     return (
-			<ul id="nav-mobile" className="right hide-on-med-and-down">
+			<ul id="nav-mobile" className=" right hide-on-med-and-down">
 				<li>
 					<Link to="/createdoc" activeClassName="active" className="right">Add Document</Link>
 				</li>
@@ -45,9 +45,9 @@ const renderIfLoggedIn = () => {
   );
 };
 const Header = () => (
-		<nav className="white">
+		<nav className="blue lighten-1">
 			<div className="navbar nav-wrapper">
-				<IndexLink to="/" activeClassName="active" className="brand-logo">DMS</IndexLink>
+				<IndexLink to="/" activeClassName="active" className="brand-logo">DocMan 1.0</IndexLink>
 				{renderIfLoggedIn()}
 			</div>
 		</nav>
