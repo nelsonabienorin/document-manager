@@ -17221,17 +17221,10 @@ var createRoleSuccess = exports.createRoleSuccess = function createRoleSuccess(r
 };
 
 var roleSaver = exports.roleSaver = function roleSaver(role) {
-  console.log('am in roleSaver ');
-  console.log(role);
   _superagent2.default.post('/api/roles').send(role).end(function (err, res) {
-    console.log(err, 'error');
-    console.log(res, 'response object');
-    console.log(res.body.message);
-    console.log(res.body.token);
     var createdUser = Object.assign({}, res.body.user, { token: res.body.token });
     console.log('created user: ', createdUser);
     window.location = '/';
-    // dispatch(createUserSuccess(createdUser));
   });
 };
 
@@ -60989,10 +60982,7 @@ var fetchDocuments = exports.fetchDocuments = function fetchDocuments() {
 var documentSaver = exports.documentSaver = function documentSaver(document) {
   var token = localStorage.getItem('dms-user');
   return function (dispatch) {
-    console.log('am in user saver');
-    console.log(document);
     _superagent2.default.post('/api/documents').send(document).set({ 'x-access-token': token }).end(function (err, res) {
-      console.log(res.body, "This is my response");
       if (err) {
         return console.log('Error :', err);
       }
@@ -61002,46 +60992,6 @@ var documentSaver = exports.documentSaver = function documentSaver(document) {
     });
   };
 };
-
-// export const documentSaver = (document) => {
-//   const token = localStorage.getItem('dms-user');
-//   const newBody = JSON.stringify(document);
-//   return fetch('/api/documents', {
-//     method: 'POST',
-//     headers: {
-//       Accept: 'application/json',
-//       'Content-Type': 'application/json',
-//       Authorization: token
-//     },
-//     body: newBody
-//   })
-//     .then((response) => {
-//       if (response.status >= 400) {
-//         throw new Error('Bad response from server');
-//       }
-//       return response.json();
-//     })
-//     .then(document => document)
-//     .catch((error) => {
-//       throw error;
-//     });
-// };
-
-
-// export const saveDocument = documentJson => dispatch =>
-// documentSaver(documentJson)
-//   .then((savedDocument) => {
-//     dispatch(createDocumentSuccess(savedDocument));
-//   }).catch((error) => {
-//     throw (error);
-//   });
-
-// .then((savedDocument) => {
-//   documentJson.id ? dispatch(updateDocumentSuccess(savedDocument)) :
-//     dispatch(createDocumentSuccess(savedDocument));
-// }).catch((error) => {
-//   throw (error);
-// });
 
 /***/ }),
 /* 767 */

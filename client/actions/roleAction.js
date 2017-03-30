@@ -26,20 +26,13 @@ export const createRoleSuccess = role => ({
 });
 
 export const roleSaver = (role) => {
-  console.log('am in roleSaver ');
-  console.log(role);
   request
   .post('/api/roles')
   .send(role)
   .end((err, res) => {
-    console.log(err, 'error');
-    console.log(res, 'response object');
-    console.log(res.body.message);
-    console.log(res.body.token);
     const createdUser = Object.assign({}, res.body.user, { token: res.body.token });
     console.log('created user: ', createdUser);
     window.location = '/';
-    // dispatch(createUserSuccess(createdUser));
   });
 };
 

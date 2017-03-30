@@ -295,9 +295,10 @@ const Auth = {
    *
    */
   validateSearch(req, res, next) {
+
     const query = {};
     const terms = [];
-    const userQuery = req.query.query; // ?
+    const userQuery = req.query.q; // ?
     const searchArray =
       userQuery ? userQuery.toLowerCase().match(/\w+/g) : null;
     const limit = req.query.limit || 10;
@@ -328,8 +329,12 @@ const Auth = {
     query.offset = offset;
     query.order = [['createdAt', order]];
 
-    if (`${req.baseUrl}${req.route.path}` === '/users/search') {
-      if (!req.query.query) {
+    if (`${req.baseUrl}${req.route.path}` === '/api/search/users') {
+
+      console.log(terms, 'hhhhhhhhhh1');
+      console.log(terms,req.baseUrl);
+      console.log(terms, req.route.path);
+      if (!req.query.q) {
         return res.status(400)
           .send({
             message: 'Please enter a search query'
@@ -344,14 +349,14 @@ const Auth = {
         ]
       };
     }
-    if (`${req.baseUrl}${req.route.path}` === '/users/') {
+    if (`${req.baseUrl}${req.route.path}` === '/api/users/') {
       console.log(req.baseUrl); // => /users
       query.where = Helper.isAdmin(req.tokenDecode.roleId)
         ? {}
         : { id: req.tokenDecode.userId };
     }
-    if (`${req.baseUrl}${req.route.path}` === '/documents/search') {
-      if (!req.query.query) {
+    if (`${req.baseUrl}${req.route.path}` === '/api/search/documents') {
+      if (!req.query.q) {
         return res.status(400)
           .send({
             message: 'Please enter a search query'
@@ -365,16 +370,16 @@ const Auth = {
         };
       }
     }
-    if (`${req.baseUrl}${req.route.path}` === '/documents/') {
+    if (`${req.baseUrl}${req.route.path}` === '/api/documents/') {
       if (Helper.isAdmin(req.tokenDecode.roleId)) {
         query.where = {};
       } else {
         query.where = Helper.docAccess(req);
       }
     }
-    if (`${req.baseUrl}${req.route.path}` === '/users/:id/documents') {
-      const adminSearch = req.query.query ? Helper.likeSearch(terms) : { };
-      const userSearch = req.query.query
+    if (`${req.baseUrl}${req.route.path}` === '/api/users/:id/documents') {
+      const adminSearch = req.query.q ? Helper.likeSearch(terms) : { };
+      const userSearch = req.query.q
         ? [Helper.docAccess(req), Helper.likeSearch(terms)]
         : Helper.docAccess(req);
       if (Helper.isAdmin(req.tokenDecode.roleId)) {

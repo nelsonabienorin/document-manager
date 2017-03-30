@@ -17,11 +17,6 @@ userRouter.route('/login')
 userRouter.route('/logout')
   .post(Auth.verifyToken, User.logout);
 
-userRouter.get('/search',
-  Auth.verifyToken,
-  Auth.validateSearch,
-  User.search);
-
 userRouter.route('/:id')
   .get(Auth.verifyToken, Auth.getSingleUser, User.getUser)
   .put(Auth.verifyToken, Auth.validateUserUpdate, User.update)

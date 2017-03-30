@@ -175,6 +175,7 @@ const User = {
     * @returns {void} no returns
     */
   findUserDocuments(req, res) {
+    console.log('am here right now');
     const userDocuments = {};
     db.User.findById(req.params.id)
       .then((user) => {
@@ -214,6 +215,7 @@ const User = {
     * @returns {void|Response} response object or void
     */
   search(req, res) {
+    console.log('hello here');
     const request = req.dmsFilter;
     let condition = {};
     let pagination;

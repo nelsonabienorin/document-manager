@@ -12,11 +12,6 @@ docRouter.route('/')
     Auth.validateSearch,
     Document.getAll);
 
-docRouter.get('/search',
-  Auth.verifyToken,
-  Auth.validateSearch,
-  Document.search);
-
 docRouter.route('/:id')
   .get(Auth.verifyToken,
     Auth.getSingleDocument,

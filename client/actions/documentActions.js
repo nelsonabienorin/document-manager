@@ -73,18 +73,15 @@ export const fetchDocuments = () => dispatch => documentApi()
 
 
 export const documentSaver = (document) => {
-   const token  = localStorage.getItem('dms-user');
+  const token = localStorage.getItem('dms-user');
   return (dispatch) => {
-  console.log('am in user saver');
-  console.log(document);
-  request
+    request
   .post('/api/documents')
   .send(document)
   .set({ 'x-access-token': token })
   .end((err, res) => {
-    console.log(res.body, "This is my response");
     if (err) {
-        return console.log('Error :', err);
+      return console.log('Error :', err);
     }
     dispatch(createDocumentSuccess(res.body.document));
     window.location = '/';
@@ -92,43 +89,3 @@ export const documentSaver = (document) => {
   });
   };
 };
-
-// export const documentSaver = (document) => {
-//   const token = localStorage.getItem('dms-user');
-//   const newBody = JSON.stringify(document);
-//   return fetch('/api/documents', {
-//     method: 'POST',
-//     headers: {
-//       Accept: 'application/json',
-//       'Content-Type': 'application/json',
-//       Authorization: token
-//     },
-//     body: newBody
-//   })
-//     .then((response) => {
-//       if (response.status >= 400) {
-//         throw new Error('Bad response from server');
-//       }
-//       return response.json();
-//     })
-//     .then(document => document)
-//     .catch((error) => {
-//       throw error;
-//     });
-// };
-
-
-// export const saveDocument = documentJson => dispatch =>
-// documentSaver(documentJson)
-//   .then((savedDocument) => {
-//     dispatch(createDocumentSuccess(savedDocument));
-//   }).catch((error) => {
-//     throw (error);
-//   });
-
-      // .then((savedDocument) => {
-      //   documentJson.id ? dispatch(updateDocumentSuccess(savedDocument)) :
-      //     dispatch(createDocumentSuccess(savedDocument));
-      // }).catch((error) => {
-      //   throw (error);
-      // });
