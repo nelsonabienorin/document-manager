@@ -31,7 +31,6 @@ export const roleSaver = (role) => {
   .send(role)
   .end((err, res) => {
     const createdUser = Object.assign({}, res.body.user, { token: res.body.token });
-    console.log('created user: ', createdUser);
     window.location = '/';
   });
 };

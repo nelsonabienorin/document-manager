@@ -81,7 +81,7 @@ export const documentSaver = (document) => {
   .set({ 'x-access-token': token })
   .end((err, res) => {
     if (err) {
-      return console.log('Error :', err);
+      return err;
     }
     dispatch(createDocumentSuccess(res.body.document));
     window.location = '/';

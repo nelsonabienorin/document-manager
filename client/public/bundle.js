@@ -17223,7 +17223,6 @@ var createRoleSuccess = exports.createRoleSuccess = function createRoleSuccess(r
 var roleSaver = exports.roleSaver = function roleSaver(role) {
   _superagent2.default.post('/api/roles').send(role).end(function (err, res) {
     var createdUser = Object.assign({}, res.body.user, { token: res.body.token });
-    console.log('created user: ', createdUser);
     window.location = '/';
   });
 };
@@ -34446,9 +34445,6 @@ var Login = function (_React$Component) {
   }, {
     key: 'onClickSave',
     value: function onClickSave() {
-      console.log('onclicksave was called');
-      console.log(this.state, "this is my state");
-      console.log(this.props, "this is my props ");
       var email = this.state.email;
       var password = this.state.password;
       var userCredentials = { email: email, password: password };
@@ -34713,7 +34709,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Register = function Register(props) {
   var saveUser = props.saveUser;
 
-  console.log('props', props);
   var onSubmit = function onSubmit(e) {
     e.preventDefault();
     var firstName = e.target.firstname.value;
@@ -35015,7 +35010,6 @@ var App = function (_React$Component) {
   _createClass(App, [{
     key: 'render',
     value: function render() {
-      console.log('You just called APP now');
       return _react2.default.createElement(
         'div',
         { className: 'container-fluid' },
@@ -35805,7 +35799,6 @@ var documentsReducer = function documentsReducer() {
   switch (action.type) {
     default:
       {
-        console.log('document reducer called');
         return state;
       }
   }
@@ -60984,7 +60977,7 @@ var documentSaver = exports.documentSaver = function documentSaver(document) {
   return function (dispatch) {
     _superagent2.default.post('/api/documents').send(document).set({ 'x-access-token': token }).end(function (err, res) {
       if (err) {
-        return console.log('Error :', err);
+        return err;
       }
       dispatch(createDocumentSuccess(res.body.document));
       window.location = '/';

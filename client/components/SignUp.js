@@ -6,7 +6,6 @@ import * as userActions from '../actions/userAction';
 
 const Register = (props) => {
   const { saveUser } = props;
-  console.log('props', props);
   const onSubmit = (e) => {
     e.preventDefault();
     const firstName = e.target.firstname.value;

@@ -330,10 +330,6 @@ const Auth = {
     query.order = [['createdAt', order]];
 
     if (`${req.baseUrl}${req.route.path}` === '/api/search/users') {
-
-      console.log(terms, 'hhhhhhhhhh1');
-      console.log(terms,req.baseUrl);
-      console.log(terms, req.route.path);
       if (!req.query.q) {
         return res.status(400)
           .send({
@@ -350,7 +346,6 @@ const Auth = {
       };
     }
     if (`${req.baseUrl}${req.route.path}` === '/api/users/') {
-      console.log(req.baseUrl); // => /users
       query.where = Helper.isAdmin(req.tokenDecode.roleId)
         ? {}
         : { id: req.tokenDecode.userId };

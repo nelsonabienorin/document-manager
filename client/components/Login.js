@@ -27,9 +27,6 @@ class Login extends React.Component {
   }
 
   onClickSave() {
-    console.log('onclicksave was called');
-    console.log(this.state, "this is my state");
-    console.log(this.props, "this is my props ");
     const email = this.state.email;
     const password = this.state.password;
     const userCredentials = { email, password };
