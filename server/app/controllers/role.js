@@ -1,134 +1,115 @@
 import db from '../models/index';
 import Helper from '../Helper/Helper';
 
-const Document = {
+const Role = {
 
   /**
-    * Create a new document
-    * Route: POST: /documents/
+    * Create a new role
+    * Route: POST: /roles/
     * @param {Object} req request object
     * @param {Object} res response object
-    * @returns {void|Object} response object or void
+    * @returns {void} no returns
     */
   create(req, res) {
-    db.Document
-      .create(req.docInput)
-       .then((document) => {
-         document = Helper.getDocument(document);
-         res.status(201)
+    db.Role
+      .create(req.body)
+      .then((role) => {
+        res.status(201)
           .send({
-            message: 'Your document has been successfully created',
-            document
+            message: 'Role has been created',
+            role
           });
-       })
-       .catch(error => res.status(500).send(error.errors));
+      })
+      .catch(error =>
+        res.status(400)
+          .send({
+            errorArray: Helper.errorArray(error)
+          }));
   },
 
   /**
-    * Get all document
-    * Route: GET: /documents/
+    * Get all roles
+    * Route: GET: /roles/
     * @param {Object} req request object
     * @param {Object} res response object
-    * @returns {void} response object or void
+    * @returns {void} no returns
     */
   getAll(req, res) {
-    req.dmsFilter.attributes = Helper.getDocAttribute();
-    db.Document
-      .findAndCountAll(req.dmsFilter)
-      .then((documents) => {
-        const condition = {
-          count: documents.count,
-          limit: req.dmsFilter.limit,
-          offset: req.dmsFilter.offset
-        };
-        delete documents.count;
-        const pagination = Helper.pagination(condition);
+    db.Role
+      .findAll()
+      .then((roles) => {
         res.status(200)
-          .send({
-            message: 'You have successfully retrieved all documents',
-            documents,
-            pagination
-          });
+        .send({
+          message: 'You have successfully retrived all roles',
+          roles
+        });
       });
   },
 
   /**
-    * Get document by ID
-    * Route: GET: /documents/:id
-    * @param {Object} req request object
-    * @param {Object} res response object
-    * @returns {void|Response} response object or void
-    */
-  getDocument(req, res) {
-    const document = Helper.getDocument(req.singleDocument);
-    return res.status(200)
-      .send({
-        message: 'You have successfully retrived this document',
-        document
-      });
-  },
-
-  /**
-    * Update document by id
-    * Route: PUT: /documents/:id
+    * Update roles
+    * Route: PUT: /roles/:id
     * @param {Object} req request object
     * @param {Object} res response object
     * @returns {void} no returns
     */
   update(req, res) {
-    req.docInstance.update(req.body)
-      .then(updatedDocument => res.status(200)
-        .send({
-          message: 'This document has been updated successfully',
-          updatedDocument
-        }))
-      .catch(error => res.status(500).send(error.errors));
+    req.roleInstance.update(req.body)
+      .then((updatedRole) => {
+        res.status(200)
+          .send({
+            message: 'This role has been updated',
+            updatedRole
+          });
+      })
+      .catch(error =>
+        res.status(400)
+          .send({
+            errorArray: Helper.errorArray(error)
+          }));
   },
 
   /**
-    * Delete document by id
-    * Route: DELETE: /documents/:id
+    * Delete a Role
+    * Route: DELETE: /roles/:id
     * @param {Object} req request object
     * @param {Object} res response object
     * @returns {void} no returns
     */
-  detele(req, res) {
-    req.docInstance.destroy()
-      .then(() => res.status(200)
-         .send({
-           message: 'This document has been deleted successfully'
-         })
-      );
+  delete(req, res) {
+    req.roleInstance.destroy()
+      .then(() => {
+        res.status(200)
+          .send({
+            message: 'This role has been deleted'
+          });
+      });
   },
 
   /**
-    * Search document
-    * Route: GET: /searchs?query={}
+    * Get role by id
+    * Route: GET: /roles/:id
     * @param {Object} req request object
     * @param {Object} res response object
-    * @returns {void|Response} response object or void
+    * @returns {void} no returns
     */
-  search(req, res) {
-    req.dmsFilter.attributes = Helper.getDocAttribute();
-    db.Document
-      .findAndCountAll(req.dmsFilter)
-      .then((documents) => {
-        const condition = {
-          count: documents.count,
-          limit: req.dmsFilter.limit,
-          offset: req.dmsFilter.offset
-        };
-        delete documents.count;
-        const pagination = Helper.pagination(condition);
+  getRole(req, res) {
+    db.Role
+      .findById(req.params.id)
+      .then((role) => {
+        if (!role) {
+          return res.status(404)
+            .send({
+              message: 'This role does not exist'
+            });
+        }
         res.status(200)
-          .send({
-            message: 'This search was successfull',
-            documents,
-            pagination
-          });
+         .send({
+           message: 'This role has been retrieved successfully',
+           role
+         });
       });
   }
-
 };
 
-export default Document;
+export default Role;

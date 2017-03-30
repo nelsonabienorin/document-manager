@@ -12,17 +12,17 @@ roleRouter.route('/')
     Auth.hasAdminPermission,
     Role.getAll);
 
-// roleRouter.route('/:id')
-//   .put(Auth.verifyToken,
-//     Auth.hasAdminPermission,
-//     Auth.modifyRolePermission,
-//     Role.update)
-//   .delete(Auth.verifyToken,
-//     Auth.hasAdminPermission,
-//     Auth.modifyRolePermission,
-//     Role.delete)
-//   .get(Auth.verifyToken,
-//     Auth.hasAdminPermission,
-//     Role.getRole);
+roleRouter.route('/:id')
+  .put(Auth.verifyToken,
+    Auth.hasAdminPermission,
+    Auth.modifyRolePermission,
+    Role.update)
+  .delete(Auth.verifyToken,
+    Auth.hasAdminPermission,
+    Auth.modifyRolePermission,
+    Role.delete)
+  .get(Auth.verifyToken,
+    Auth.hasAdminPermission,
+    Role.getRole);
 
 export default roleRouter;
