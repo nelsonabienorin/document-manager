@@ -84,29 +84,29 @@ export const fetchRoles = () => dispatch => roleApi()
       .catch((error) => { throw error; });
 
 
-export const roleSaver = (role) => {
-  const newBody = JSON.stringify(role);
-  const { token } = JSON.parse(localStorage.getItem('currentUser'));
-  return fetch('/api/roles', {
-    method: 'post',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: token
-    },
-    body: newBody
-  })
-    .then((response) => {
-      if (response.status >= 400) {
-        throw new Error('Bad response from server');
-      }
-      return response.json();
-    })
-    .then(role => role)
-    .catch((error) => {
-      throw error;
-    });
-};
+// export const roleSaver = (role) => {
+//   const newBody = JSON.stringify(role);
+//   const { token } = JSON.parse(localStorage.getItem('currentUser'));
+//   return fetch('/api/roles', {
+//     method: 'post',
+//     headers: {
+//       Accept: 'application/json',
+//       'Content-Type': 'application/json',
+//       Authorization: token
+//     },
+//     body: newBody
+//   })
+//     .then((response) => {
+//       if (response.status >= 400) {
+//         throw new Error('Bad response from server');
+//       }
+//       return response.json();
+//     })
+//     .then(role => role)
+//     .catch((error) => {
+//       throw error;
+//     });
+// };
 
 export const saveRole = roleJson => (dispatch) => roleSaver(roleJson)
       .then((savedRole) => {

@@ -20,7 +20,7 @@ userRouter.route('/logout')
 userRouter.get('/search',
   Auth.verifyToken,
   Auth.validateSearch,
-  User.search); // ?
+  User.search);
 
 userRouter.route('/:id')
   .get(Auth.verifyToken, Auth.getSingleUser, User.getUser)

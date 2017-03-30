@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
 
 const renderIfLoggedIn = () => {
-  const user = JSON.parse(localStorage.getItem('x-access-token'));
-  if (user && user.userIdentity) {
+  const token = localStorage.getItem('dms-user');
+  if (token) {
     return (
 			<ul id="nav-mobile" className=" right hide-on-med-and-down">
 				<li>
