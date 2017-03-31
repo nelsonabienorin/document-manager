@@ -11,9 +11,9 @@ const Helper = {
   userProfile(data) {
     return {
       id: data.id,
-      username: data.userName,
-      firstname: data.firstName,
-      lastname: data.lastName,
+      userName: data.userName,
+      firstName: data.firstName,
+      lastName: data.lastName,
       email: data.email,
       roleId: data.roleId,
       createAt: data.createdAt,
@@ -59,9 +59,9 @@ const Helper = {
   getUserProfile(data) {
     return {
       id: data.id,
-      username: data.userName,
-      firstname: data.firstName,
-      lastname: data.lastName,
+      userName: data.userName,
+      firstName: data.firstName,
+      lastName: data.lastName,
       email: data.email,
       roleId: data.roleId
     };

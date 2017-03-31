@@ -38,6 +38,8 @@ const User = {
     * @returns {void|Response} response object or void
     */
   login(req, res) {
+    console.log('LOGIN ctrl METHOD');
+    console.log(req.body);
     db.User
       .findOne({ where: { email: req.body.email } })
       .then((user) => {

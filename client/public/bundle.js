@@ -66,6 +66,7 @@
 /******/ 	return __webpack_require__(__webpack_require__.s = 392);
 /******/ })
 /************************************************************************/
+<<<<<<< HEAD
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -61586,3 +61587,15 @@ module.exports = __webpack_require__.p + "ad6bd542519ebbdbf0d06163e115d510.jpg";
 
 /***/ })
 /******/ ]);
+=======
+/******/ ({
+
+/***/ 392:
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/rotimiifedayonelson/Desktop/document-manager/client/index.js'\n    at Error (native)");
+
+/***/ })
+
+/******/ });
+>>>>>>> feature/142016253/api-endpoints-test

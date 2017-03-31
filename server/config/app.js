@@ -18,10 +18,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('combined'));
+
 app.use('/api/users', indexRoute.userRouter);
 app.use('/api/roles', indexRoute.roleRouter);
 app.use('/api/documents', indexRoute.docRouter);
 app.use('/api/search', indexRoute.searchRouter);
+
 
 // Setup a default catch-all route that sends back a
 // welcome message in JSON format
