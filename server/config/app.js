@@ -1,9 +1,9 @@
 import express from 'express';
-import logger from 'morgan';
+import { logger, morgan } from 'morgan';
 import bodyParser from 'body-parser';
 import path from 'path';
 import * as indexRoute from '../routes/';
-import morgan from 'morgan';
+
 
 // Require our routes into the application
 // This have to come before the app.get
@@ -23,7 +23,6 @@ app.use('/api/users', indexRoute.userRouter);
 app.use('/api/roles', indexRoute.roleRouter);
 app.use('/api/documents', indexRoute.docRouter);
 app.use('/api/search', indexRoute.searchRouter);
-
 
 // Setup a default catch-all route that sends back a
 // welcome message in JSON format
