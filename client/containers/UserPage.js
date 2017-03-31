@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-import { bindActionCreators } from 'redux';
-import * as userAction from '../actions/userAction';
+import * as userActions from '../actions/userAction';
 import UserList from '../components/UserList';
 
 class User extends React.Component {
@@ -17,10 +16,12 @@ class User extends React.Component {
   }
 
   componentDidMount() {
-    this.props.actions.fetchUsers();
+    this.props.fetchUsers();
   }
 
   render() {
+    console.log(this.props , "This is my props");
+    console.log(this.state, "this is my state");
     const { users } = this.props;
     return (
       <div>
@@ -40,14 +41,15 @@ User.PropTypes = {
 };
 
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    actions: bindActionCreators(userAction, dispatch)
-  };
-};
+// we map our dispatch to custom saveUser props
+const mapDispatchToProps = dispatch => ({
+  saveUser: user => dispatch(userActions.saveUser(user)),
+  fetchUsers: () => dispatch(userActions.fetchUsers())
+});
 
 const mapStateToProps = (state) => {
-  return Object.assign({}, state);
+  return {
+    users: state.user
+  };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(User);
-export { User as PureMyComponent };

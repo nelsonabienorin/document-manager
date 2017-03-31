@@ -41,7 +41,7 @@ Role.PropTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  createRole: role => dispatch(roleAction.createRole(role)),
+  createRole: role => dispatch(roleAction.roleSaver(role)),
   loadRoles: () => dispatch(roleAction.fetchRoles())
 });
 

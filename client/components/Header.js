@@ -19,14 +19,15 @@ const renderIfLoggedIn = () => {
 					<Link to="/roles" activeClassName="active" className="right">Roles</Link>
 				</li>
 				<li>
-					<Link to="/logout" activeClassName="active" className="right">Logout</Link>
-				</li>
-				<li>
 					<Link to="/register" activeClassName="active" className="right">Users</Link>
 				</li>
         <li>
 					<Link to="/documents" activeClassName="active" className="right">Documents</Link>
 				</li>
+					<li>
+					<Link to="/logout" activeClassName="active" className="right">Logout</Link>
+				</li>
+
 			</ul>
   );
   }

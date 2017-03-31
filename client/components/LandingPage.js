@@ -1,14 +1,20 @@
 import React from 'react';
 import Typist from 'react-typist';
+import bgimage from '../img/doc-img.jpg';
+
+const theStyle = {
+  backgroundImage: 'url(' + bgimage + ')',
+  height:900
+};
 
 class HomePage extends React.Component {
   render() {
     return (
-    <div>
+    <div style={theStyle}>
       <div className="parallax-container">
       <div id="parallax">
         <Typist className="Typist">
-          <h3><p className="ptag"> Get all your documents been managed...</p></h3>
+          <h3><p className="ptag white-text"> Get all your documents been managed...</p></h3>
 	      </Typist>
 	    </div>
 	  </div>

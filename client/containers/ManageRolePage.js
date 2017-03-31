@@ -26,7 +26,7 @@ class ManageRolePage extends React.Component {
   saveRole(event) {
     event.preventDefault();
     this.props.saveRole(this.state.role);
-    this.context.router.push('/roles');
+    this.context.router.push('/');
     this.setState({ saving: true });
     // toastr.success('Role saved');
   }
@@ -53,7 +53,7 @@ ManageRolePage.contextTypes = {
   router: PropTypes.object
 };
 const mapDispatchToProps = dispatch => ({
-  saveRole: role => dispatch(roleActions.saveRole(role))
+  saveRole: role => dispatch(roleActions.roleSaver(role))
 });
 
 const mapStateToProps = (state) => {

@@ -25,85 +25,19 @@ export const createRoleSuccess = role => ({
   role
 });
 
+// thunk
 export const roleSaver = (role) => {
+  return (dispatch) => {
+  const token = localStorage.getItem('dms-user');
   request
   .post('/api/roles')
   .send(role)
+  .set({ 'x-access-token': token })
   .end((err, res) => {
-    const createdUser = Object.assign({}, res.body.user, { token: res.body.token });
+    console.log(res.body, 'my response');
+    dispatch(createRoleSuccess(role))
     window.location = '/';
   });
+  };
 };
 
-// get roles
-export const roleApi = () => {
-  const { token } = JSON.parse(localStorage.getItem('currentUser'));
-  return fetch('/api/roles', {
-    method: 'GET',
-    headers: {
-      Authorization: token
-    }
-  })
-    .then((response) => {
-      if (response.status >= 400) {
-        throw new Error('Bad response from server');
-      }
-      return response.json();
-    })
-    .then(roles => roles)
-    .catch((error) => {
-      throw error;
-    });
-};
-
-export const fetchARole = roleId => fetch(`/roles/${roleId}`)
-    .then((response) => {
-      if (response.status >= 400) {
-        throw new Error('Bad response from server');
-      }
-      return response.json();
-    })
-    .then(role => role)
-    .catch((error) => {
-      throw error;
-    });
-
-// thunk
-export const fetchRoles = () => dispatch => roleApi()
-      .then((roles) => {
-        dispatch(getRoleSuccess(roles));
-      })
-      .catch((error) => { throw error; });
-
-
-// export const roleSaver = (role) => {
-//   const newBody = JSON.stringify(role);
-//   const { token } = JSON.parse(localStorage.getItem('currentUser'));
-//   return fetch('/api/roles', {
-//     method: 'post',
-//     headers: {
-//       Accept: 'application/json',
-//       'Content-Type': 'application/json',
-//       Authorization: token
-//     },
-//     body: newBody
-//   })
-//     .then((response) => {
-//       if (response.status >= 400) {
-//         throw new Error('Bad response from server');
-//       }
-//       return response.json();
-//     })
-//     .then(role => role)
-//     .catch((error) => {
-//       throw error;
-//     });
-// };
-
-export const saveRole = roleJson => (dispatch) => roleSaver(roleJson)
-      .then((savedRole) => {
-        roleJson.id ? dispatch(updateRoleSuccess(savedRole)) :
-          dispatch(createRoleSuccess(savedRole));
-      }).catch((error) => {
-        throw (error);
-      });

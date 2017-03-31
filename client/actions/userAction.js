@@ -45,16 +45,19 @@ export const saveUser = userJson => dispatch => userSaver(userJson)
 
 export const fetchUsers = () => {
   console.log('I got to fetchUser in act');
+  const token = localStorage.getItem('dms-user');
   return (dispatch) => {
-    return userApi()
-      .then((users) => {
-        console.log(users, 'fetch');
-        return dispatch(getUserSuccess(users));
-      })
-  .catch((error) => { throw error; });
-  };
+  request
+  .get('/api/users')
+  .set({ 'x-access-token': token })
+  .end((err, res) => {
+    console.log(res.body, 'my response');
+    dispatch(getUserSuccess(res.body.users));
+  });
+};
 };
 
+// return dispatch(getUserSuccess(users));
 export const login = (userCredentials) => {
   console.log('userCredentials');
   console.log(userCredentials, "userCredentials");
@@ -73,4 +76,21 @@ export const login = (userCredentials) => {
     });
   };
 };
+
+
+// // thunk
+// export const roleSaver = (role) => {
+//   return (dispatch) => {
+//   const token = localStorage.getItem('dms-user');
+//   request
+//   .post('/api/roles')
+//   .send(role)
+//   .set({ 'x-access-token': token })
+//   .end((err, res) => {
+//     console.log(res.body, 'my response');
+//     dispatch(createRoleSuccess(role))
+//     window.location = '/';
+//   });
+//   };
+// };
 

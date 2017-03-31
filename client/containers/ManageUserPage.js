@@ -52,7 +52,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = (state) => {
-  const user = { firstname: '', lastname: '', username: '', email: '', password: '', roleId: '' };
+  const user = { firstName: '', lastName: '', userName: '', email: '', password: '', roleId: '' };
   return {
     user
   };

@@ -1,6 +1,5 @@
 // const webpack = require('webpack');
 const path = require('path');
-
 module.exports = {
   entry: path.join(__dirname, '/client/index.js'),
   output: {
@@ -13,7 +12,15 @@ module.exports = {
         test: /\.(js|jsx)$/,
         use: 'babel-loader'
       },
-      { test: /(\.css)$/, loaders: ['style-loader', 'css-loader'] }
+      { test: /(\.css)$/, loaders: ['style-loader', 'css-loader'] },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
+      {
+        test: /\.(jpg|png|svg)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 25000,
+        }
+      }
     ]
   }
   // debug: true,
