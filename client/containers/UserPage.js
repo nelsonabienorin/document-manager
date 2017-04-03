@@ -20,8 +20,6 @@ class User extends React.Component {
   }
 
   render() {
-    console.log(this.props , "This is my props");
-    console.log(this.state, "this is my state");
     const { users } = this.props;
     return (
       <div>
@@ -29,9 +27,10 @@ class User extends React.Component {
         <input
           type="submit"
           value="Add new User"
-          className=""
+          className="btn waves-effect waves-light blue darken-4"
           onClick={this.redirectToRolePage} />
       </div>
+
     );
   }
 }

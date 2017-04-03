@@ -2,7 +2,6 @@ import React, { propTypes } from 'react';
 import { link } from 'react-router';
 
 const UserListRow = ({user}) => {
-  console.log(user,'user list');
     return (
         <tr>
             <td>{user.id}</td>

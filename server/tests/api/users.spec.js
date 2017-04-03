@@ -7,7 +7,7 @@ import helper from '../helper/test.helper';
 const superRequest = request.agent(app);
 const expect = chai.expect;
 
-let newAdminUser, adminToken, regularToken, regularUser;
+let newAdminUser, adminToken, regularToken;
 const emptyValue = ['userName', 'lastName', 'firstName', 'password', 'email'];
 const uniqueField = ['userName', 'email'];
 const adminUser = helper.adminUser1;
@@ -26,9 +26,6 @@ describe('User API :', () => {
         db.User.create(adminUser)
           .then((admin) => {
             newAdminUser = admin.dataValues;
-             console.log(adminUser);
-             console.log('=========');
-            console.log(admin);
             done();
           });
       });
@@ -109,26 +106,16 @@ describe('User API :', () => {
             done();
           });
       });
-
-      // ///
     });
   });
 
-// //
-describe('Existing users', () => {
-  describe('Login /users/login', () => {
-    it('should allow admin user to login', (done) => {
-      superRequest.post('/api/users/login')
+
+  describe('Existing users', () => {
+    describe('Login /users/login', () => {
+      it('should allow admin user to login', (done) => {
+        superRequest.post('/api/users/login')
         .send(adminUser)
         .end((err, res) => {
-
-             console.log('****FROM USERS TEST**');
-             console.log(adminUser);
-             console.log(res.body);
-            console.log(res.body.token);
-            console.log(res.message);
-            console.log(res.message);
-            console.log('END****');
           adminToken = res.body.token;
           expect(res.status).to.equal(200);
           expect(res.body.token).to.not.equal(null);
@@ -136,26 +123,23 @@ describe('Existing users', () => {
             .equal('You have successfully logged in');
           done();
         });
-    });
+      });
 
-    it('should allow other users to login', (done) => {
-      superRequest.post('/api/users/login')
+      it('should allow other users to login', (done) => {
+        superRequest.post('/api/users/login')
         .send(helper.regularUser1)
         .end((err, res) => {
-          console.log(' BEFORE regularToken assignment');
           regularToken = res.body.token;
-          console.log(res.body);
-          console.log('********');
           expect(res.status).to.equal(200);
           expect(res.body.token).to.not.equal(null);
           expect(res.body.message).to
             .equal('You have successfully logged in');
           done();
         });
-    });
+      });
 
-    it('should not allow unregistered users to login', (done) => {
-      superRequest.post('/api/users/login')
+      it('should not allow unregistered users to login', (done) => {
+        superRequest.post('/api/users/login')
         .send(helper.firstUser)
         .end((err, res) => {
           expect(res.status).to.equal(401);
@@ -163,10 +147,10 @@ describe('Existing users', () => {
             .equal('Please enter a valid email or password to log in');
           done();
         });
-    });
+      });
 
-    it('should not allow login with invalid password', (done) => {
-      superRequest.post('/api/users/login')
+      it('should not allow login with invalid password', (done) => {
+        superRequest.post('/api/users/login')
         .send({
           email: newAdminUser.email,
           password: 'invalid'
@@ -177,9 +161,9 @@ describe('Existing users', () => {
             .equal('Please enter a valid email or password to log in');
           done();
         });
-    });
+      });
 
-    it('should not allow login when email and password is not provided',
+      it('should not allow login when email and password is not provided',
       (done) => {
         superRequest.post('/api/users/login')
           .send({})
@@ -190,11 +174,11 @@ describe('Existing users', () => {
             done();
           });
       });
-  });
+    });
 
-  describe('Get all users, GET /users ', () => {
-    it('should return verification failed if no token is supply', (done) => {
-      superRequest.get('/api/users')
+    describe('Get all users, GET /users ', () => {
+      it('should return verification failed if no token is supply', (done) => {
+        superRequest.get('/api/users')
         .set({})
         .end((err, res) => {
           expect(res.status).to.equal(400);
@@ -202,10 +186,10 @@ describe('Existing users', () => {
             .equal('Please sign in or register to get a token');
           done();
         });
-    });
+      });
 
-    it('should return invalid token if token is invalid', (done) => {
-      superRequest.get('/api/users')
+      it('should return invalid token if token is invalid', (done) => {
+        superRequest.get('/api/users')
         .set({
           'x-access-token': 'hello-andela-tia'
         })
@@ -215,31 +199,27 @@ describe('Existing users', () => {
             .equal('The token you supplied has expired');
           done();
         });
-    });
+      });
 
-    it(`should return users own profile,
+      it(`should return users own profile,
       when the requester is a regular user`, (done) => {
-        console.log('AM HERE TO RETURN USERS OWN PROFILE');
-        console.log(regularToken);
-      superRequest.get('/api/users')
+        superRequest.get('/api/users')
         .set({
           'x-access-token': regularToken
         })
         .end((err, res) => {
-          console.log('&&&&&&&&&&&&&&&&');
-          console.log(res.body);
           expect(res.status).to.equal(200);
           expect(res.body.message).to
             .equal('You have successfully retrived all users');
           expect(res.body.users.rows[0].username).to
-            .equal(helper.regularUser.username);
+            .equal(helper.regularUser1.username);
           done();
         });
-    });
+      });
 
-    it(`should return all users profile,
+      it(`should return all users profile,
       when the requester is an admin user`, (done) => {
-      superRequest.get('/api/users')
+        superRequest.get('/api/users')
         .set({
           'x-access-token': adminToken
         })
@@ -249,7 +229,7 @@ describe('Existing users', () => {
             .equal('You have successfully retrived all users');
           done();
         });
+      });
     });
   });
-});
 });

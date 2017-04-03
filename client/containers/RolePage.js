@@ -23,14 +23,13 @@ class Role extends React.Component {
   render() {
     const { roles } = this.props;
     return (
-      <div className="page-wrapper">
+      <div className="container">
+         <RoleList roles={roles} />
         <input
           type="submit"
           value="Add Role"
-          className="col s12 btn btn-large waves-effect indigo"
+          className="btn blue darken-4"
           onClick={this.redirectToRolePage} />
-        <RoleList roles={roles} />
-
       </div>
     );
   }

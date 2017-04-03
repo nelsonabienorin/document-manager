@@ -28,16 +28,28 @@ export const createRoleSuccess = role => ({
 // thunk
 export const roleSaver = (role) => {
   return (dispatch) => {
-  const token = localStorage.getItem('dms-user');
-  request
-  .post('/api/roles')
-  .send(role)
-  .set({ 'x-access-token': token })
-  .end((err, res) => {
-    console.log(res.body, 'my response');
-    dispatch(createRoleSuccess(role))
-    window.location = '/';
-  });
+    const token = localStorage.getItem('dms-user');
+    request
+    .post('/api/roles')
+    .send(role)
+    .set({ 'x-access-token': token })
+    .end((err, res) => {
+      dispatch(createRoleSuccess(role));
+      window.location = '/roles';
+      return res;
+    });
+  };
+};
+
+export const fetchRoles = () => {
+  return (dispatch) => {
+    const token = localStorage.getItem('dms-user');
+    request
+    .get('/api/roles')
+    .set({ 'x-access-token': token })
+    .end((err, res) => {
+      dispatch(getRoleSuccess(res.body.roles));
+    });
   };
 };
 

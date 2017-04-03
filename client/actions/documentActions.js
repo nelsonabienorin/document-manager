@@ -1,7 +1,7 @@
+
 import request from 'superagent';
 import fetch from 'isomorphic-fetch';
 import * as types from './actionTypes';
-
 
 
 export const createDocument = document => ({
@@ -26,7 +26,7 @@ export const createDocumentSuccess = document => ({
 });
 // get roles
 export const documentApi = () => {
-  const token  = localStorage.getItem('dms-user');
+  const token = localStorage.getItem('dms-user');
   return fetch('/api/documents', {
     method: 'GET',
     headers: {
@@ -65,12 +65,17 @@ export const fetchADocument = (documentId) => {
 };
 
 // thunk
-export const fetchDocuments = () => dispatch => documentApi()
-      .then((documents) => {
-        dispatch(getDocumentSuccess(documents));
-      })
-      .catch((error) => { throw error; });
-
+export const fetchDocuments = () => {
+  const token = localStorage.getItem('dms-user');
+  return (dispatch) => {
+    request
+  .get('/api/documents')
+  .set({ 'x-access-token': token })
+  .end((err, res) => {
+    dispatch(getDocumentSuccess(res.body.documents));
+  });
+  };
+};
 
 export const documentSaver = (document) => {
   const token = localStorage.getItem('dms-user');
@@ -84,8 +89,7 @@ export const documentSaver = (document) => {
       return err;
     }
     dispatch(createDocumentSuccess(res.body.document));
-    window.location = '/';
-    // dispatch(createUserSuccess(createdUser));
+    window.location = '/createdoc';
   });
   };
 };

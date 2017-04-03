@@ -46,7 +46,7 @@ const renderIfLoggedIn = () => {
   );
 };
 const Header = () => (
-		<nav className="blue lighten-1">
+		<nav className="blue darken-4">
 			<div className="navbar nav-wrapper">
 				<IndexLink to="/" activeClassName="active" className="brand-logo">DocMan 1.0</IndexLink>
 				{renderIfLoggedIn()}

@@ -2,7 +2,7 @@ import React, { propTypes } from 'react';
 import RoleListRow from './RoleListRow';
 
 const RoleList = ({ roles }) => (
-        <table className="table bordered">
+        <table className="striped">
             <thead>
                 <tr>
                     <th>&nbsp;</th>

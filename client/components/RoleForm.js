@@ -3,7 +3,7 @@ import TextInput from '../components/TextInput';
 
 const RoleForm = ({ role, onSave, onChange, loading, errors }) => {
   return (
-        <form method="POST">
+        <form method="POST" style = {{ width: 800 }}>
             <TextInput
                 name="title"
                 label="Title"
@@ -15,7 +15,7 @@ const RoleForm = ({ role, onSave, onChange, loading, errors }) => {
                 type="submit"
                 disabled={loading}
                 value={loading ? 'saving ...' : 'save'}
-                className='col s12 btn btn-large waves-effect indigo'
+                className='btn blue darken-4'
                 onClick={onSave} />
         </form>
     );

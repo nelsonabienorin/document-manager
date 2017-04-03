@@ -2,9 +2,9 @@ import React from 'react';
 import TextInput from '../components/TextInput';
 
 const UserForm = ({ user, onSave, onChange, loading, errors }) => (
-		<div className="container">
+		<div className="container" style={{ width : 700 }}>
 			<div className="z-depth-1 grey lighten-4">
-				<form method="POST" className="col s12">
+				<form method="POST" className="" style={{ width: '95%', marginLeft: '20px' }}>
 					<TextInput
 						name="firstname"
 						label="firstname"
@@ -54,7 +54,7 @@ const UserForm = ({ user, onSave, onChange, loading, errors }) => (
 					<a
 						disabled={loading}
 						value={loading ? 'saving ...' : 'save'}
-						className="waves-effect waves-light btn"
+						className="btn blue darken-4"
 						onClick={onSave} > SignUp </a>
 				</form>
 			</div>

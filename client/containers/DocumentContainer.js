@@ -19,7 +19,7 @@ class DocumentContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchDocuments();
+     this.props.fetchDocuments();
   }
 
   handleFormSubmit(event) {
@@ -53,10 +53,10 @@ class DocumentContainer extends React.Component {
 				<DocumentMarkdown
 					document={this.state.document}
 					onChange={this.handleEditorchange} />
-
 				<center>
+          <br/>  <br/>
 					<button type='submit' name='btn_login'
-						className='col s12 btn btn-large waves-effect indigo'
+						className='col s12 btn btn-large waves-effect blue darken-4'
 						onClick={this.handleFormSubmit}>Add Document
         </button>
 				</center>
@@ -78,4 +78,3 @@ const mapStateToProps = () => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocumentContainer);
-export { DocumentContainer as PureMyComponent };

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-// import toastr from 'toastr';
+import toastr from 'toastr';
 import { bindActionCreators } from 'redux';
 import * as roleActions from '../actions/roleAction';
 import RoleForm from '../components/RoleForm';
@@ -34,7 +34,7 @@ class ManageRolePage extends React.Component {
   render() {
     return (
       <div>
-        <h5 className="z-depth-1 grey lighten-4 row">Add Role</h5>
+        <h5 className="blue-text">Add Role</h5>
         <RoleForm
           role={this.state.role}
           onChange={this.updateRoleState}
@@ -63,4 +63,4 @@ const mapStateToProps = (state) => {
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ManageRolePage);
-export { ManageRolePage as PureMyComponent };
+// export { ManageRolePage as PureMyComponent };

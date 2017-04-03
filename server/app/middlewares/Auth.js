@@ -167,8 +167,6 @@ const Auth = {
    * @returns {void|Object} response object or void
    * */
   validateLoginInput(req, res, next) {
-    console.log('I CAME HERE TO VALIDATE LOGIN INPUT IN AUTH');
-    console.log(req.body);
     if (!req.body.password || !req.body.email) {
       return res.status(400)
         .send({
@@ -297,7 +295,6 @@ const Auth = {
    *
    */
   validateSearch(req, res, next) {
-
     const query = {};
     const terms = [];
     const userQuery = req.query.q; // ?

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-// import toastr from 'toastr';
+import toastr from 'toastr';
 import * as userAction from '../actions/userAction';
 import UserForm from '../components/userForm';
 
@@ -27,7 +27,7 @@ class ManageUserPage extends React.Component {
     this.props.saveUser(this.state.user);
     window.location = '/';
     this.setState({ saving: true });
-    // toastr.success('User saved');
+    toastr.success('User saved');
   }
 
   render() {

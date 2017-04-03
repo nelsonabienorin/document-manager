@@ -44,7 +44,7 @@ class Login extends React.Component {
           <h5 className="indigo-text">Login</h5>
           <div className="section" />
 
-          <div className="container">
+          <div className="container" style={{ width: 500 }}>
             <div className="z-depth-1 grey lighten-4 row customWidth">
 
               <div className="col s12">
@@ -54,30 +54,34 @@ class Login extends React.Component {
 
                 <div className="row">
                   <div className="input-field col s12">
-                    <input className="" type="text"
-                      name="email" id="email"
+                     <i className="material-icons prefix">account_circle</i>
+                    <input
+className="validate" type="email"
+                      name="email" id="icon_prefix"
                       onChange={this.onEmailChange}
                     />
+                    <label for="icon_prefix" data-error="wrong" data-success="right">Email</label>
                   </div>
                 </div>
 
                 <div className="row">
                   <div className="input-field col s12">
-                    <input className="validate" type="password"
+                    <i className="material-icons prefix">lock</i>
+                    <input
+className="validate" type="password"
                       name="password" id="password"
                       onChange={this.onPasswordChange}
                     />
+                     <label for="password" data-error="wrong" data-success="right">Password</label>
                   </div>
-                  <label>
-                    <a className="pink-text" href="#!"><b>Forgot Password?</b></a>
-                  </label>
                 </div>
 
                 <br />
                 <center>
                   <div className="row">
-                    <button type="submit" name="btn_login"
-                      className="col s12 btn btn-large waves-effect blue darken-2"
+                    <button
+type="submit" name="btn_login"
+                      className="col s12 btn btn-large waves-effect blue darken-4"
                       value="save"
                       onClick={this.onClickSave}
                     >Login</button>
@@ -97,13 +101,11 @@ class Login extends React.Component {
 
 
 const mapDispatchToProps = dispatch => ({
-  login: (userCredentials1) => dispatch(userActions.login(userCredentials1))
+  login: userCredentials1 => dispatch(userActions.login(userCredentials1))
 });
 
-const mapStateToProps = (state) => {
-  return {
+const mapStateToProps = (state) => ({
     users: state.user
-  };
-};
+  });
 
-export default connect(mapStateToProps , mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -6,7 +6,6 @@ const userReducer = (state = initialState.users, action) => {
     case types.CREATE_USER_SUCCESS:
       return Object.assign({}, state, action.user);
     case types.USER_SUCCESS:
-    console.log(action.users, "user action");
       return Object.assign({}, state, action.users);
     case types.LOAD_USER_SUCCESS:
       return {};

@@ -2,24 +2,23 @@ import React, { propTypes } from 'react';
 import UserListRow from './UserListRow';
 
 function renderList(users) {
-  console.log(users, "This is my users");
   if (!users.rows) {
     return (
      <div className="">
-      No Users
+      <h1> No Users </h1>
      </div>
     );
   }
   return (
-   <table className="table bordered">
+   <table className="table striped">
     <thead>
      <tr>
-      <th>&nbsp;</th>
+      <th>#</th>
       <th>First Name</th>
       <th>Last Name</th>
       <th>User Name</th>
       <th>Email</th>
-      <th>Roles</th>
+      <th>Role</th>
      </tr>
    </thead>
    <tbody>
@@ -31,24 +30,7 @@ function renderList(users) {
 </table>
   );
 }
-/* ///
 
- {users.map((user) =>
-       <UserListRow key={user.id} user={user} />
-     )}
-
-
-const content = posts.map((post) =>
-  <Post
-    key={post.id}
-    id={post.id}
-    title={post.title} />
-);
-////
- {users.map(user =>
-       <UserListRow key={user.id} user={user} />
-     )}
-///*/
 const UserList = ({ usersList }) => {
   const users = usersList;
   return renderList(users);

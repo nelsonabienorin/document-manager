@@ -14,8 +14,8 @@ import DocumentPage from '../client/containers/DocumentPage';
 
 const logUserOut = (nextState, replace, done) => {
   localStorage.removeItem('dms-user');
-  window.location = '/login';
-}
+  window.location = '/';
+};
 
 
 export default (
@@ -32,5 +32,6 @@ export default (
     <Route path="user" component={ManageUserPage} />
     <Route path="logout" onEnter={logUserOut} />
     <Route path="documents" component={DocumentPage} />
+    <Route path="documents/:id" component={DocumentPage} />
   </Route>
 );

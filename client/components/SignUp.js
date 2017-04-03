@@ -22,7 +22,7 @@ const Register = (props) => {
         <h5 className="indigo-text">Create account</h5>
         <div className="section"></div>
 
-        <div className="container">
+        <div className="container" style={{ width: 700 }}>
           <div className="z-depth-1 grey lighten-4 row">
 
             <form className="col s12" method="post" onSubmit={onSubmit}>
@@ -50,7 +50,7 @@ const Register = (props) => {
               <div className='row'>
                 <div className='input-field col s12'>
                   <input className='validate' type='text' name='username' id='username' />
-                  <label htmlFor='email'>Enter your username</label>
+                  <label htmlFor='username'>Enter your username</label>
                 </div>
               </div>
 
@@ -58,24 +58,22 @@ const Register = (props) => {
               <div className='row'>
                 <div className='input-field col s12'>
                   <input className='validate' type='email' name='email' id='email' />
-                  <label htmlFor='email'>Enter your email</label>
+                  <label htmlFor='email' for="email" data-error="wrong" data-success="right">Enter your email</label>
                 </div>
               </div>
 
               <div className='row'>
                 <div className='input-field col s12'>
                   <input className='validate' type='password' name='password' id='password' />
-                  <label htmlFor='password'>Enter your password</label>
+                  <label for="password" data-error="wrong" data-success="right" htmlFor='password'>Enter your password</label>
                 </div>
-                <label>
-                  <a className='pink-text' href='#!'><b>Forgot Password?</b></a>
-                </label>
+
               </div>
 
               <br />
               <center>
                 <div className='row'>
-                  <button type='submit' name='btn_login' className='col s12 btn btn-large waves-effect blue darken-2'>Signup</button>
+                  <button type='submit' name='btn_login' className='col s12 btn btn-large waves-effect blue darken-4'>Signup</button>
                 </div>
               </center>
             </form>

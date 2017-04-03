@@ -13,6 +13,7 @@ module.exports = {
         use: 'babel-loader'
       },
       { test: /(\.css)$/, loaders: ['style-loader', 'css-loader'] },
+      { test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader'] },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
       {
         test: /\.(jpg|png|svg)$/,
