@@ -23,20 +23,20 @@ class DocumentPage extends React.Component {
     };
     this.redirectToRolePage = this.redirectToRolePage.bind(this);
   }
-/**
-   * componentDidMount
-   * @param {props}  void
-   * @return {fetchDocuments} function
-   */
-  componentDidMount() {
-    this.props.fetchDocuments();
-  }
   /**
    * redirectToRolePage
    * @returns {Object}  browserHistory
    */
   redirectToRolePage() {
     browserHistory.push('/documents');
+  }
+  /**
+   * componentDidMount
+   * @param {props}  void
+   * @return {fetchDocuments} function
+   */
+  componentDidMount() {
+    this.props.fetchDocuments();
   }
   /**
    * render
@@ -52,12 +52,11 @@ class DocumentPage extends React.Component {
   }
 }
 
-DocumentPage.PropTypes = {
-  documents: PropTypes.array.isRequired
-};
-
+// documentSaver
 const mapDispatchToProps = dispatch => ({
-  fetchDocuments: () => dispatch(documentAction.fetchDocuments())
+  documentSaver: documents => dispatch(documentAction.documentSaver(documents)),
+  fetchDocuments: () => dispatch(documentAction.fetchDocuments()),
+  updateDocument: () => dispatch(documentAction.updateDocument())
 });
 
 const mapStateToProps = state => ({

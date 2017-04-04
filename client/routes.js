@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Route, IndexRoute , match } from 'react-router';
 import App from './containers/App';
 import LandingPage from './components/LandingPage';
 import Header from './components/Header';
@@ -11,12 +11,12 @@ import UserPage from './containers/UserPage';
 import ManageUserPage from './containers/ManageUserPage';
 import DocumentContainer from '../client/containers/DocumentContainer';
 import DocumentPage from '../client/containers/DocumentPage';
+import DocumentForm from '../client/components/DocumentForm';
 
 const logUserOut = (nextState, replace, done) => {
   localStorage.removeItem('dms-user');
   window.location = '/';
 };
-
 
 export default (
   <Route path="/" component={App}>
@@ -32,6 +32,8 @@ export default (
     <Route path="user" component={ManageUserPage} />
     <Route path="logout" onEnter={logUserOut} />
     <Route path="documents" component={DocumentPage} />
-    <Route path="documents/:id" component={DocumentPage} />
+    <Route path="documents/:id" component={DocumentContainer} />
   </Route>
 );
+
+

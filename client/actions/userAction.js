@@ -1,7 +1,5 @@
 import request from 'superagent';
-import toastr from 'toastr';
 import * as types from './actionTypes';
-
 
 export const createUser = user => ({
   type: types.CREATE_USER,
@@ -19,22 +17,20 @@ export const createUserSuccess = user => ({
   user
 });
 
-export const userSaver = (user) => {
+export const saveUser = user => (dispatch) => {
   request
-  .post('/api/users')
-  .send(user)
-  .end((err, res) => {
-    const createdUser = Object.assign({}, res.body.user, { token: res.body.token });
-    window.location = '/login';
-  });
+      .post('/api/users')
+      .send(user)
+      .end((err, res) => {
+        if (err) {
+          Materialize.toast('Unable to save', 4000, 'rounded');
+        } else {
+          dispatch(createUserSuccess(user) );
+          Materialize.toast('Successful', 4000, 'rounded');
+          window.location = '/login';
+        }
+      });
 };
-
-export const saveUser = userJson => dispatch => userSaver(userJson)
-  .then((savedUser) => {
-    dispatch(createUserSuccess(savedUser));
-  }).catch((error) => {
-    throw (error);
-  });
 
 export const fetchUsers = () => {
   const token = localStorage.getItem('dms-user');
@@ -55,11 +51,11 @@ export const login = (userCredentials) => {
     .send(userCredentials)
     .end((err, res) => {
       if (err) {
-        toastr.error('Invalid Login Details');
+        Materialize.toast('Invalid Login Details', 4000, 'rounded');
       } else {
         const createdUser = Object.assign({}, res.body.user, { token: res.body.token });
         localStorage.setItem('dms-user', res.body.token);
-        toastr.success('You have successfully login ');
+        Materialize.toast('You have successfully login ', 4000, 'rounded');
         window.location = '/';
       }
     });

@@ -24,6 +24,7 @@ export const createDocumentSuccess = document => ({
   type: types.CREATE_DOCUMENT_SUCCESS,
   document
 });
+
 // get roles
 export const documentApi = () => {
   const token = localStorage.getItem('dms-user');
@@ -74,7 +75,7 @@ export const fetchDocuments = () => {
   .end((err, res) => {
     dispatch(getDocumentSuccess(res.body.documents));
   });
-  };
+ };
 };
 
 export const documentSaver = (document) => {
@@ -90,6 +91,24 @@ export const documentSaver = (document) => {
     }
     dispatch(createDocumentSuccess(res.body.document));
     window.location = '/createdoc';
+  });
+  };
+};
+
+
+export const updateDocument = (document) => {
+  const token = localStorage.getItem('dms-user');
+  return (dispatch) => {
+    request
+  .put(`/api/documents/${document.id}`)
+  .send(document)
+  .set({ 'x-access-token': token })
+  .end((err, res) => {
+    if (err) {
+      return err;
+    }
+    dispatch(createDocumentSuccess(res.body.document));
+    window.location = '/';
   });
   };
 };
