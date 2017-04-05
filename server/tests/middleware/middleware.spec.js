@@ -478,7 +478,7 @@ describe('MIDDLEWARE UNIT TEST', () => {
       sinon.spy(middlewareStub, 'callback');
       response.on('end', () => {
         expect(response._getData().message).to
-          .equal('This document does not exist');
+          .equal('You are not permitted to modify this document');
       });
       Auth.hasDocumentPermission(request, response, middlewareStub);
     });
