@@ -75,7 +75,6 @@ export const login = (userCredentials) => {
 
 
 export const updateUser = (user) => {
-  console.log('Do you wanna update user?');
   const token = localStorage.getItem('dms-user');
   return (dispatch) => {
     request

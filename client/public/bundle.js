@@ -10584,7 +10584,6 @@ var login = exports.login = function login(userCredentials) {
 };
 
 var updateUser = exports.updateUser = function updateUser(user) {
-  console.log('Do you wanna update user?');
   var token = localStorage.getItem('dms-user');
   return function (dispatch) {
     _superagent2.default.put('/api/users/' + user.id).send(user).set({ 'x-access-token': token }).end(function (err, res) {
@@ -45201,7 +45200,6 @@ var DocumentList = function (_React$Component) {
   }, {
     key: 'deleteDoc',
     value: function deleteDoc(id) {
-      console.log(id, "this is my state");
       this.props.deleteDocument(id);
     }
   }, {
@@ -46183,13 +46181,11 @@ var UserListRow = function (_React$Component) {
   }, {
     key: 'deleteUser',
     value: function deleteUser(id) {
-      console.log(id, "this is my state");
       this.props.deleteUser(id);
     }
   }, {
     key: 'onSubmit',
     value: function onSubmit(e) {
-      console.log('you clicked me ');
       e.preventDefault();
       var id = e.target.id.value;
       var firstName = e.target.firstName.value;
@@ -46198,9 +46194,7 @@ var UserListRow = function (_React$Component) {
       var email = e.target.email.defaultValue;
       var roleId = e.target.roleId.defaultValue;
       var userDetails = { id: id, firstName: firstName, lastName: lastName, userName: userName, email: email, roleId: roleId };
-      console.log(userDetails, "userDetails");
-      // console.log(this.props, "this.props");
-      //  console.log(props, "props");
+
       this.props.updateUser(userDetails);
     }
   }, {
@@ -46210,7 +46204,6 @@ var UserListRow = function (_React$Component) {
           _React$createElement;
 
       var user = this.props.user;
-      console.log(user);
       return _react2.default.createElement(
         'tr',
         null,

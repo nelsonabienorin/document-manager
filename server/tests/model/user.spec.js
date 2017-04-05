@@ -28,7 +28,6 @@ describe('User Model', () => {
     it('should create a user', (done) => {
       db.User.create(helper.regularUser1)
         .then((user) => {
-          console.log(user,"USER VALUES IN USER MODEL");
           regularUser = user.dataValues;
           expect(user.dataValues.firstName)
             .to.equal(helper.regularUser1.firstName);
@@ -37,7 +36,6 @@ describe('User Model', () => {
           expect(user.dataValues.userName)
             .to.equal(helper.regularUser1.userName);
           expect(user.dataValues.email).to.equal(helper.regularUser1.email);
-          console.log(user.dataValues.roleId, "(user.dataValues.roleId");
           expect(user.dataValues.roleId).to.equal(defaultRoleId);
           expect(user.dataValues.password)
             .to.not.equal(helper.regularUser1.password);

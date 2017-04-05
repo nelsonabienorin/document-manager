@@ -23,11 +23,9 @@ constructor (props) {
         return this.setState({ [e.target.name]: e.target.value,  })
       }
     deleteUser (id) {
-      console.log(id, "this is my state");
       this.props.deleteUser(id);
     }
     onSubmit(e){
-    console.log('you clicked me ');
     e.preventDefault();
      const id = e.target.id.value;
      const firstName = e.target.firstName.value;
@@ -36,14 +34,11 @@ constructor (props) {
      const email = e.target.email.defaultValue;
      const roleId = e.target.roleId.defaultValue;
      const userDetails = { id, firstName, lastName, userName, email, roleId};
-     console.log(userDetails, "userDetails");
-    // console.log(this.props, "this.props");
-   //  console.log(props, "props");
+
      this.props.updateUser(userDetails);
   }
   render () {
    const user = this.props.user;
-   console.log(user);
     return (
         <tr>
             <td>{user.id}</td>

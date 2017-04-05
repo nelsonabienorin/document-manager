@@ -26,7 +26,6 @@ class DocumentList extends React.Component{
          return this.setState({ [e.target.name]: e.target.value,  })
       }
     deleteDoc (id) {
-      console.log(id, "this is my state");
        this.props.deleteDocument(id);
     }
     onSubmit(e){
