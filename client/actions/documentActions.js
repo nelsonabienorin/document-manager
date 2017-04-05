@@ -25,6 +25,11 @@ export const createDocumentSuccess = document => ({
   document
 });
 
+export const deleteDocumentSuccess = document => ({
+  type: types.DELETE_DOCUMENT_SUCCESS,
+  document
+});
+
 // get roles
 export const documentApi = () => {
   const token = localStorage.getItem('dms-user');
@@ -107,8 +112,28 @@ export const updateDocument = (document) => {
     if (err) {
       return err;
     }
-    dispatch(createDocumentSuccess(res.body.document));
-    window.location = '/';
+    dispatch(updateDocumentSuccess(res.body.document));
+    window.location = '/documents';
+    Materialize.toast('Document successfully updated', 4000, 'rounded');
+  });
+  };
+};
+
+
+
+export const deleteDocument = (id) => {
+  const token = localStorage.getItem('dms-user');
+  return (dispatch) => {
+    request
+  .delete(`/api/documents/${id}`)
+  .send(document)
+  .set({ 'x-access-token': token })
+  .end((err, res) => {
+    if (err) {
+      return err;
+    }
+    dispatch(deleteDocumentSuccess(res.body.document));
+    window.location = '/documents';
   });
   };
 };

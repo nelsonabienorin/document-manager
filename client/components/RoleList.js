@@ -1,11 +1,12 @@
 import React, { propTypes } from 'react';
 import RoleListRow from './RoleListRow';
 
+
 const RoleList = ({ roles }) => (
         <table className="striped">
             <thead>
                 <tr>
-                    <th>&nbsp;</th>
+                    <th>#</th>
                     <th>Title</th>
                     <th>Created At</th>
                     <th>Updated At</th>

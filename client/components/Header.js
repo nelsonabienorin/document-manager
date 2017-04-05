@@ -14,7 +14,7 @@ const renderIfLoggedIn = () => {
 					<Link to="/role" activeClassName="active" className="right">Add Role</Link>
 				</li>
 				<li>
-					<Link to="/register" activeClassName="active" className="right">Add User</Link>
+					<Link to="/user" activeClassName="active" className="right">Add User</Link>
 				</li>
 				<li>
 					<Link to="/roles" activeClassName="active" className="right">Roles</Link>

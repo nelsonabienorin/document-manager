@@ -12,18 +12,23 @@ class DocumentList extends React.Component{
       constructor (props) {
         super(props);
         const { updateDocument } = this.props;
+        const { deleteDocument } = this.props;
         this.state = {
+        id: '',
         title:  '',
         content: '',
         access: '',
         ownerId: '',
-        ownerRoleId: '',
+        ownerRoleId: ''
       };
       }
       fieldChange(e) {
          return this.setState({ [e.target.name]: e.target.value,  })
       }
-
+    deleteDoc (id) {
+      console.log(id, "this is my state");
+       this.props.deleteDocument(id);
+    }
     onSubmit(e){
     e.preventDefault();
      const id = e.target.id.value;
@@ -48,7 +53,6 @@ class DocumentList extends React.Component{
             </div>
             <div className="card-action">
               <a>Published: {moment(document.createdAt).format('MMMM Do YYYY')}</a> <br/>
-
               <div className="card-action">
                   <Modal
                     header='Edit Document'
@@ -68,11 +72,10 @@ class DocumentList extends React.Component{
                    <Row>
                       <textarea name = "content" value={this.state.content === '' ? document.content : this.state.content} onChange={(e) => this.fieldChange(e)} label="Content" className="materialize-textarea"/>
                   </Row>
-                  <Button waves='light' type="submit">UPDATE</Button>
+                  <Button className="blue darken-4" waves='light' type="submit">UPDATE</Button>
                 </form>
-
                 </Modal>
-                <Button waves='light' className="btn-floating btn-large red darken-2 right"><i className="large material-icons">delete</i></Button>
+                <Button waves='light' onClick={(e) => this.deleteDoc(document.id)}  className="btn-floating btn-large red darken-2 right"><i className="large material-icons">delete</i></Button>
               </div>
             </div>
           </div>
@@ -87,7 +90,8 @@ class DocumentList extends React.Component{
 
 // DocumentList.PropTypes = {updatedDocDetails: React.PropTypes.func.isRequired};
 const mapDispatchToProps = dispatch => ({
-  updateDocument: documentDetails => dispatch(DocumentAction.updateDocument(documentDetails))
+  updateDocument: documentDetails => dispatch(DocumentAction.updateDocument(documentDetails)),
+  deleteDocument: id => dispatch(DocumentAction.deleteDocument(id))
 });
 
 const mapStateToProps = (state) => {

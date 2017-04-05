@@ -8764,6 +8764,7 @@ var CREATE_DOCUMENT = exports.CREATE_DOCUMENT = 'CREATE_DOCUMENT';
 var CREATE_DOCUMENT_SUCCESS = exports.CREATE_DOCUMENT_SUCCESS = 'CREATE_DOCUMENT_SUCCESS';
 var UPDATE_DOCUMENT_SUCCESS = exports.UPDATE_DOCUMENT_SUCCESS = 'UPDATE_DOCUMENT_SUCCESS';
 var LOAD_DOCUMENT_SUCCESS = exports.LOAD_DOCUMENT_SUCCESS = 'LOAD_DOCUMENT_SUCCESS';
+var DELETE_DOCUMENT_SUCCESS = exports.DELETE_DOCUMENT_SUCCESS = 'DELETE_DOCUMENT_SUCCESS';
 
 /***/ }),
 /* 67 */
@@ -10495,7 +10496,7 @@ module.exports = g;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.login = exports.fetchUsers = exports.saveUser = exports.createUserSuccess = exports.getUserSuccess = exports.createUser = undefined;
+exports.deleteUser = exports.updateUser = exports.login = exports.fetchUsers = exports.saveUser = exports.deleteUserSuccess = exports.updateUserSuccess = exports.createUserSuccess = exports.getUserSuccess = exports.createUser = undefined;
 
 var _superagent = __webpack_require__(112);
 
@@ -10526,6 +10527,20 @@ var getUserSuccess = exports.getUserSuccess = function getUserSuccess(users) {
 var createUserSuccess = exports.createUserSuccess = function createUserSuccess(user) {
   return {
     type: types.CREATE_USER_SUCCESS,
+    user: user
+  };
+};
+
+var updateUserSuccess = exports.updateUserSuccess = function updateUserSuccess(user) {
+  return {
+    type: types.UPDATE_USER_SUCCESS,
+    user: user
+  };
+};
+
+var deleteUserSuccess = exports.deleteUserSuccess = function deleteUserSuccess(user) {
+  return {
+    type: types.DELETE_USER_SUCCESS,
     user: user
   };
 };
@@ -10564,6 +10579,35 @@ var login = exports.login = function login(userCredentials) {
         Materialize.toast('You have successfully login ', 4000, 'rounded');
         window.location = '/';
       }
+    });
+  };
+};
+
+var updateUser = exports.updateUser = function updateUser(user) {
+  console.log('Do you wanna update user?');
+  var token = localStorage.getItem('dms-user');
+  return function (dispatch) {
+    _superagent2.default.put('/api/users/' + user.id).send(user).set({ 'x-access-token': token }).end(function (err, res) {
+      if (err) {
+        return err;
+      }
+      dispatch(updateUserSuccess(res.body.document));
+      window.location = '/register';
+      Materialize.toast('User successfully updated', 4000, 'rounded');
+    });
+  };
+};
+
+var deleteUser = exports.deleteUser = function deleteUser(id) {
+  var token = localStorage.getItem('dms-user');
+  return function (dispatch) {
+    _superagent2.default.delete('/api/users/' + id).send(document).set({ 'x-access-token': token }).end(function (err, res) {
+      if (err) {
+        return err;
+      }
+      dispatch(deleteUserSuccess(res.body.document));
+      window.location = '/register';
+      Materialize.toast('User successfully deleted', 4000, 'rounded');
     });
   };
 };
@@ -17771,7 +17815,7 @@ module.exports = __webpack_require__(634);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateDocument = exports.documentSaver = exports.fetchDocuments = exports.fetchADocument = exports.documentApi = exports.createDocumentSuccess = exports.updateDocumentSuccess = exports.getDocumentSuccess = exports.createDocument = undefined;
+exports.deleteDocument = exports.updateDocument = exports.documentSaver = exports.fetchDocuments = exports.fetchADocument = exports.documentApi = exports.deleteDocumentSuccess = exports.createDocumentSuccess = exports.updateDocumentSuccess = exports.getDocumentSuccess = exports.createDocument = undefined;
 
 var _superagent = __webpack_require__(112);
 
@@ -17814,6 +17858,13 @@ var updateDocumentSuccess = exports.updateDocumentSuccess = function updateDocum
 var createDocumentSuccess = exports.createDocumentSuccess = function createDocumentSuccess(document) {
   return {
     type: types.CREATE_DOCUMENT_SUCCESS,
+    document: document
+  };
+};
+
+var deleteDocumentSuccess = exports.deleteDocumentSuccess = function deleteDocumentSuccess(document) {
+  return {
+    type: types.DELETE_DOCUMENT_SUCCESS,
     document: document
   };
 };
@@ -17887,8 +17938,22 @@ var updateDocument = exports.updateDocument = function updateDocument(document) 
       if (err) {
         return err;
       }
-      dispatch(createDocumentSuccess(res.body.document));
-      window.location = '/';
+      dispatch(updateDocumentSuccess(res.body.document));
+      window.location = '/documents';
+      Materialize.toast('Document successfully updated', 4000, 'rounded');
+    });
+  };
+};
+
+var deleteDocument = exports.deleteDocument = function deleteDocument(id) {
+  var token = localStorage.getItem('dms-user');
+  return function (dispatch) {
+    _superagent2.default.delete('/api/documents/' + id).send(document).set({ 'x-access-token': token }).end(function (err, res) {
+      if (err) {
+        return err;
+      }
+      dispatch(deleteDocumentSuccess(res.body.document));
+      window.location = '/documents';
     });
   };
 };
@@ -18102,7 +18167,7 @@ var renderIfLoggedIn = function renderIfLoggedIn() {
 				null,
 				_react2.default.createElement(
 					_reactRouter.Link,
-					{ to: '/register', activeClassName: 'active', className: 'right' },
+					{ to: '/user', activeClassName: 'active', className: 'right' },
 					'Add User'
 				)
 			),
@@ -18210,6 +18275,8 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactMaterialize = __webpack_require__(827);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RoleListRow = function RoleListRow(_ref) {
@@ -18237,6 +18304,32 @@ var RoleListRow = function RoleListRow(_ref) {
             'td',
             null,
             role.updatedAt
+        ),
+        _react2.default.createElement(
+            'td',
+            null,
+            _react2.default.createElement(
+                _reactMaterialize.Button,
+                { waves: 'light', className: 'btn-floating btn-large blue darken-4 right' },
+                _react2.default.createElement(
+                    'i',
+                    { className: 'large material-icons' },
+                    'mode_edit'
+                )
+            )
+        ),
+        _react2.default.createElement(
+            'td',
+            null,
+            _react2.default.createElement(
+                _reactMaterialize.Button,
+                { waves: 'light', className: 'btn-floating btn-large red darken-2 right' },
+                _react2.default.createElement(
+                    'i',
+                    { className: 'large material-icons' },
+                    'delete'
+                )
+            )
         )
     );
 };
@@ -45087,8 +45180,10 @@ var DocumentList = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (DocumentList.__proto__ || Object.getPrototypeOf(DocumentList)).call(this, props));
 
     var updateDocument = _this.props.updateDocument;
+    var deleteDocument = _this.props.deleteDocument;
 
     _this.state = {
+      id: '',
       title: '',
       content: '',
       access: '',
@@ -45102,6 +45197,12 @@ var DocumentList = function (_React$Component) {
     key: 'fieldChange',
     value: function fieldChange(e) {
       return this.setState(_defineProperty({}, e.target.name, e.target.value));
+    }
+  }, {
+    key: 'deleteDoc',
+    value: function deleteDoc(id) {
+      console.log(id, "this is my state");
+      this.props.deleteDocument(id);
     }
   }, {
     key: 'onSubmit',
@@ -45197,14 +45298,16 @@ var DocumentList = function (_React$Component) {
                         ),
                         _react2.default.createElement(
                           _reactMaterialize.Button,
-                          { waves: 'light', type: 'submit' },
+                          { className: 'blue darken-4', waves: 'light', type: 'submit' },
                           'UPDATE'
                         )
                       )
                     ),
                     _react2.default.createElement(
                       _reactMaterialize.Button,
-                      { waves: 'light', className: 'btn-floating btn-large red darken-2 right' },
+                      { waves: 'light', onClick: function onClick(e) {
+                          return _this2.deleteDoc(document.id);
+                        }, className: 'btn-floating btn-large red darken-2 right' },
                       _react2.default.createElement(
                         'i',
                         { className: 'large material-icons' },
@@ -45231,6 +45334,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     updateDocument: function updateDocument(documentDetails) {
       return dispatch(DocumentAction.updateDocument(documentDetails));
+    },
+    deleteDocument: function deleteDocument(id) {
+      return dispatch(DocumentAction.deleteDocument(id));
     }
   };
 };
@@ -45704,7 +45810,7 @@ var RoleList = function RoleList(_ref) {
                 _react2.default.createElement(
                     'th',
                     null,
-                    '\xA0'
+                    '#'
                 ),
                 _react2.default.createElement(
                     'th',
@@ -46017,57 +46123,230 @@ exports.default = UserList;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactMaterialize = __webpack_require__(827);
+
+var _reactRedux = __webpack_require__(39);
+
 var _reactRouter = __webpack_require__(40);
+
+var _userAction = __webpack_require__(91);
+
+var _userAction2 = _interopRequireDefault(_userAction);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var UserListRow = function UserListRow(_ref) {
-    var user = _ref.user;
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-    return _react2.default.createElement(
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UserListRow = function (_React$Component) {
+  _inherits(UserListRow, _React$Component);
+
+  //= ({user}) => {
+  function UserListRow(props) {
+    _classCallCheck(this, UserListRow);
+
+    var _this = _possibleConstructorReturn(this, (UserListRow.__proto__ || Object.getPrototypeOf(UserListRow)).call(this, props));
+
+    var updateUser = _this.props.updateUser;
+    var deleteUser = _this.props.deleteUser;
+
+    _this.state = {
+      id: '',
+      firstName: '',
+      lastName: '',
+      userName: '',
+      email: '',
+      roleId: ''
+    };
+    return _this;
+  }
+
+  _createClass(UserListRow, [{
+    key: 'fieldChange',
+    value: function fieldChange(e) {
+      return this.setState(_defineProperty({}, e.target.name, e.target.value));
+    }
+  }, {
+    key: 'deleteUser',
+    value: function deleteUser(id) {
+      console.log(id, "this is my state");
+      this.props.deleteUser(id);
+    }
+  }, {
+    key: 'onSubmit',
+    value: function onSubmit(e) {
+      console.log('you clicked me ');
+      e.preventDefault();
+      var id = e.target.id.value;
+      var firstName = e.target.firstName.value;
+      var lastName = e.target.lastName.value;
+      var userName = e.target.userName.defaultValue;
+      var email = e.target.email.defaultValue;
+      var roleId = e.target.roleId.defaultValue;
+      var userDetails = { id: id, firstName: firstName, lastName: lastName, userName: userName, email: email, roleId: roleId };
+      console.log(userDetails, "userDetails");
+      // console.log(this.props, "this.props");
+      //  console.log(props, "props");
+      this.props.updateUser(userDetails);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this,
+          _React$createElement;
+
+      var user = this.props.user;
+      console.log(user);
+      return _react2.default.createElement(
         'tr',
         null,
         _react2.default.createElement(
-            'td',
-            null,
-            user.id
+          'td',
+          null,
+          user.id
         ),
         _react2.default.createElement(
-            'td',
-            null,
-            user.firstName
+          'td',
+          null,
+          user.firstName
         ),
         _react2.default.createElement(
-            'td',
-            null,
-            user.lastName
+          'td',
+          null,
+          user.lastName
         ),
         _react2.default.createElement(
-            'td',
-            null,
-            user.userName
+          'td',
+          null,
+          user.userName
         ),
         _react2.default.createElement(
-            'td',
-            null,
-            user.email
+          'td',
+          null,
+          user.email
         ),
         _react2.default.createElement(
-            'td',
-            null,
-            user.roleId
+          'td',
+          null,
+          user.roleId
+        ),
+        _react2.default.createElement(
+          _reactMaterialize.Modal,
+          {
+            header: 'Edit User',
+            trigger: _react2.default.createElement(
+              'td',
+              null,
+              _react2.default.createElement(
+                _reactMaterialize.Button,
+                { waves: 'light', className: 'btn-floating btn-large blue darken-4 right' },
+                _react2.default.createElement(
+                  'i',
+                  { className: 'large material-icons' },
+                  'mode_edit'
+                )
+              )
+            ) },
+          _react2.default.createElement(
+            'form',
+            { className: 'col s12', method: 'post', onSubmit: function onSubmit(e) {
+                return _this2.onSubmit(e);
+              } },
+            _react2.default.createElement(
+              _reactMaterialize.Row,
+              null,
+              _react2.default.createElement(_reactMaterialize.Input, { s: 6, value: 'USER ID' }),
+              _react2.default.createElement(_reactMaterialize.Input, { s: 6, name: 'id', value: user.id })
+            ),
+            _react2.default.createElement(
+              _reactMaterialize.Row,
+              null,
+              _react2.default.createElement(_reactMaterialize.Input, { s: 6, label: 'firstName', name: 'firstName', value: this.state.firstName === '' ? user.firstName : this.state.firstName, onChange: function onChange(e) {
+                  return _this2.fieldChange(e);
+                } }),
+              _react2.default.createElement(_reactMaterialize.Input, { s: 6, label: 'lastName', name: 'lastName', value: this.state.lastName === '' ? user.lastName : this.state.lastName, onChange: function onChange(e) {
+                  return _this2.fieldChange(e);
+                } })
+            ),
+            _react2.default.createElement(
+              _reactMaterialize.Row,
+              null,
+              _react2.default.createElement(_reactMaterialize.Input, { s: 6, label: 'userName', name: 'userName', value: this.state.userName === '' ? user.userName : this.state.userName, onChange: function onChange(e) {
+                  return _this2.fieldChange(e);
+                } }),
+              _react2.default.createElement(_reactMaterialize.Input, (_React$createElement = { s: 6, label: 'email', name: 'email' }, _defineProperty(_React$createElement, 'label', 'email'), _defineProperty(_React$createElement, 'value', this.state.email === '' ? user.email : this.state.email), _defineProperty(_React$createElement, 'onChange', function onChange(e) {
+                return _this2.fieldChange(e);
+              }), _React$createElement))
+            ),
+            _react2.default.createElement(
+              _reactMaterialize.Row,
+              null,
+              _react2.default.createElement(_reactMaterialize.Input, { s: 6, label: 'roleId', name: 'roleId', value: this.state.roleId === '' ? user.roleId : this.state.roleId, onChange: function onChange(e) {
+                  return _this2.fieldChange(e);
+                } })
+            ),
+            _react2.default.createElement(
+              _reactMaterialize.Button,
+              { className: 'blue darken-4', waves: 'light', type: 'submit' },
+              'UPDATE'
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'td',
+          null,
+          ' ',
+          _react2.default.createElement(
+            _reactMaterialize.Button,
+            { waves: 'light', onClick: function onClick(e) {
+                return _this2.deleteUser(user.id);
+              }, className: 'btn-floating btn-large red darken-2 right' },
+            _react2.default.createElement(
+              'i',
+              { className: 'large material-icons' },
+              'delete'
+            )
+          )
         )
-    );
+      );
+    }
+  }]);
+
+  return UserListRow;
+}(_react2.default.Component);
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    updateUser: function updateUser(userDetails) {
+      return dispatch(_userAction2.default.updateUser(userDetails));
+    },
+    deleteUser: function deleteUser(id) {
+      return dispatch(_userAction2.default.deleteUser(id));
+    }
+  };
 };
 
-exports.default = UserListRow;
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    userDetails: state.user
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(UserListRow);
 
 /***/ }),
 /* 395 */
