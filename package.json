@@ -78,11 +78,12 @@
     "webpack:dev": "webpack -w",
     "webpack:prod": "webpack -p",
     "test-server": "NODE_ENV=test mocha --compilers js:babel-core/register server/tests/**/**.spec.js",
-    "test": "NODE_ENV=test npm run db:test:drop && npm run migrate:test:db && npm run db:test:seed && babel-node ./node_modules/babel-istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec server/tests/**/*.spec.js --timeout 90000",
+    "test": "cross-env NODE_ENV=test npm run db:test:drop && npm run migrate:test:db && npm run db:test:seed && npm run coverage ",
     "migrate:db": "NODE_ENV=development sequelize db:migrate",
     "db:test:seed": "NODE_ENV=test sequelize db:seed:all",
     "db:test:drop": "NODE_ENV=test sequelize db:migrate:undo:all",
-    "migrate:test:db": "NODE_ENV=test sequelize db:migrate"
+    "migrate:test:db": "NODE_ENV=test sequelize db:migrate",
+    "coverage": "cross-env NODE_ENV=test node_modules/.bin/istanbul cover  ./node_modules/.bin/_mocha  server/tests/**/**.spec.js -- --require babel-register --timeout 90000"
   },
   "repository": {
     "type": "git",

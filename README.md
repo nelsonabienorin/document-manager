@@ -1,5 +1,7 @@
 
-[![Build Status](https://travis-ci.org/andela-nrotimi/document-manager.svg?branch=front-end-experiment)](https://travis-ci.org/andela-nrotimi/document-manager)
+[![Build Status](https://travis-ci.org/andela-nrotimi/document-manager.svg?branch=master)](https://travis-ci.org/andela-nrotimi/document-manager)
+
+[![Coverage Status](https://coveralls.io/repos/github/andela-nrotimi/document-manager/badge.svg)](https://coveralls.io/github/andela-nrotimi/document-manager)
 
 # Document Management System
 The Document management system provides REST API enpoints for a document management system. It allows create, retrieve, update and delete actions to be carried out.
