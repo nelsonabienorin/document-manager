@@ -34,6 +34,7 @@ export const roleSaver = (role) => {
     .send(role)
     .set({ 'x-access-token': token })
     .end((err, res) => {
+      Materialize.toast(res.body.message, 4000, 'rounded');
       dispatch(createRoleSuccess(role));
       window.location = '/roles';
       return res;
@@ -48,6 +49,7 @@ export const fetchRoles = () => {
     .get('/api/roles')
     .set({ 'x-access-token': token })
     .end((err, res) => {
+      Materialize.toast(res.body.message, 4000, 'rounded');
       dispatch(getRoleSuccess(res.body.roles));
     });
   };

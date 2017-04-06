@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Link, IndexLink, match} from 'react-router';
 
-
 const renderIfLoggedIn = () => {
   const token = localStorage.getItem('dms-user');
   if (token) {
@@ -25,10 +24,12 @@ const renderIfLoggedIn = () => {
         <li>
 					<Link to="/documents" activeClassName="active" className="right">Documents</Link>
 				</li>
-					<li>
+				<li>
+            <input id="search" placeholder="search here" onChange={(e)=>{searchOnChange(e)}}/>
+				</li>
+				<li>
 					<Link to="/logout" activeClassName="active" className="right">Logout</Link>
 				</li>
-
 			</ul>
   );
   }
@@ -55,5 +56,7 @@ const Header = () => (
 		</nav>
 
   );
-
+const searchOnChange = (e) =>{
+	console.log(e.target.value, "my value");
+}
 export default Header;

@@ -30,25 +30,25 @@ export const deleteDocumentSuccess = document => ({
   document
 });
 
-// get roles
-export const documentApi = () => {
-  const token = localStorage.getItem('dms-user');
-  return fetch('/api/documents', {
-    method: 'GET',
-    headers: {
-      'x-access-token': token
-    }
-  }).then((response) => {
-    if (response.status >= 400) {
-      throw new Error('Bad response from server');
-    }
-    return response.json();
-  })
-    .then(documents => documents)
-    .catch((error) => {
-      throw error;
-    });
-};
+// // get roles
+// export const documentApi = () => {
+//   const token = localStorage.getItem('dms-user');
+//   return fetch('/api/documents', {
+//     method: 'GET',
+//     headers: {
+//       'x-access-token': token
+//     }
+//   }).then((response) => {
+//     if (response.status >= 400) {
+//       throw new Error('Bad response from server');
+//     }
+//     return response.json();
+//   })
+//     .then(documents => documents)
+//     .catch((error) => {
+//       throw error;
+//     });
+// };
 
 export const fetchADocument = (documentId) => {
   const token = localStorage.getItem('dms-user');
@@ -60,7 +60,10 @@ export const fetchADocument = (documentId) => {
   })
     .then((response) => {
       if (response.status >= 400) {
+        Materialize.toast(`Bad response from server, ${res.body.message}`, 4000, 'rounded');
         throw new Error('Bad response from server');
+      } else {
+        Materialize.toast(`Document Successfully retrieved, ${res.body.message}`, 4000, 'rounded');
       }
       return response.json();
     })
@@ -71,19 +74,24 @@ export const fetchADocument = (documentId) => {
 };
 
 // thunk
-export const fetchDocuments = () => {
+export const fetchDocuments = (offset) => {
+  const pageOffset = offset || 0;
   const token = localStorage.getItem('dms-user');
   return (dispatch) => {
     request
-  .get('/api/documents')
+  .get(`/api/documents?offset=${pageOffset}`)
   .set({ 'x-access-token': token })
   .end((err, res) => {
-    dispatch(getDocumentSuccess(res.body.documents));
+    console.log(res.body.pagination, "THis is my response body pagination");
+    Materialize.toast(res.body.message, 4000, 'rounded');
+   // dispatch(getDocumentSuccess(res.body.documents));
+    dispatch(getDocumentSuccess(res.body));
   });
- };
+  };
 };
 
 export const documentSaver = (document) => {
+  console.log('am here in documentSaver');
   const token = localStorage.getItem('dms-user');
   return (dispatch) => {
     request
@@ -91,11 +99,12 @@ export const documentSaver = (document) => {
   .send(document)
   .set({ 'x-access-token': token })
   .end((err, res) => {
+    Materialize.toast(res.body.message, 4000, 'rounded');
     if (err) {
       return err;
     }
     dispatch(createDocumentSuccess(res.body.document));
-    window.location = '/createdoc';
+    window.location = '/documents';
   });
   };
 };
@@ -109,12 +118,12 @@ export const updateDocument = (document) => {
   .send(document)
   .set({ 'x-access-token': token })
   .end((err, res) => {
+    Materialize.toast(res.body.message, 4000, 'rounded');
     if (err) {
       return err;
     }
-    dispatch(updateDocumentSuccess(res.body.document));
     window.location = '/documents';
-    Materialize.toast('Document successfully updated', 4000, 'rounded');
+    dispatch(updateDocumentSuccess(res.body.updatedDocument));
   });
   };
 };
@@ -129,6 +138,7 @@ export const deleteDocument = (id) => {
   .send(document)
   .set({ 'x-access-token': token })
   .end((err, res) => {
+    Materialize.toast(res.body.message, 4000, 'rounded');
     if (err) {
       return err;
     }

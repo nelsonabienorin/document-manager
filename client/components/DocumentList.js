@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import {Modal, Button, Row, Input} from 'react-materialize';
+import {Modal, Button, Row, Input, Pagination} from 'react-materialize';
 import moment from 'moment';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
@@ -13,6 +13,7 @@ class DocumentList extends React.Component{
         super(props);
         const { updateDocument } = this.props;
         const { deleteDocument } = this.props;
+        const { fetchDocuments } = this.props;
         this.state = {
         id: '',
         title:  '',
@@ -28,21 +29,32 @@ class DocumentList extends React.Component{
     deleteDoc (id) {
        this.props.deleteDocument(id);
     }
+    onSelect(pageNo){
+      const offset = (pageNo-1) * 10;
+      this.props.fetchDocuments(offset);
+    }
     onSubmit(e){
     e.preventDefault();
      const id = e.target.id.value;
      const title = e.target.title.value;
      const access = e.target.access.value;
-      const content = e.target.content.defaultValue;
+      const content = e.target.content.value;
      const documentDetails = { id, title, access, content};
      this.props.updateDocument(documentDetails);
   }
   render () {
-    const doc = this.props.documents.rows;
-
+   let pagination = null;
+   let doc = null;
+   if (this.props.documentDetails.documents && this.props.documentDetails.documents.rows) {
+    doc = this.props.documentDetails.documents.rows;
+    pagination = this.props.documentDetails.pagination;
+    console.log(pagination);
+   }
     return (
+      <div>
+   { doc ?
     <div className="row">
-    {doc && doc.map(document =>
+    {doc.map(document =>
     <div key={document.id}>
         <div className="col s3">
           <div className="card white darken-1" style={{ height: 300 }}>
@@ -81,8 +93,12 @@ class DocumentList extends React.Component{
         </div>
       </div>
       )}
+       {pagination ? <Pagination items={pagination.page_count} activePage={2} maxButtons={5} onSelect={(e)=>this.onSelect(e)}/> : ''}
+      </div>
+      : <div>Not document</div> }
       </div>
   );
+
 };
 
   }
@@ -90,7 +106,8 @@ class DocumentList extends React.Component{
 // DocumentList.PropTypes = {updatedDocDetails: React.PropTypes.func.isRequired};
 const mapDispatchToProps = dispatch => ({
   updateDocument: documentDetails => dispatch(DocumentAction.updateDocument(documentDetails)),
-  deleteDocument: id => dispatch(DocumentAction.deleteDocument(id))
+  deleteDocument: id => dispatch(DocumentAction.deleteDocument(id)),
+  fetchDocuments: offset => dispatch(DocumentAction.fetchDocuments(offset))
 });
 
 const mapStateToProps = (state) => {
@@ -100,4 +117,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocumentList);
-// export default DocumentList;
+

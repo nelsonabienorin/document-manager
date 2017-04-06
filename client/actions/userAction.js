@@ -33,13 +33,12 @@ export const saveUser = user => (dispatch) => {
       .post('/api/users')
       .send(user)
       .end((err, res) => {
+        Materialize.toast(res.body.message, 4000, 'rounded');
         if (err) {
-          Materialize.toast('Unable to save', 4000, 'rounded');
-        } else {
-          dispatch(createUserSuccess(user) );
-          Materialize.toast('Successful', 4000, 'rounded');
-          window.location = '/login';
+          return err;
         }
+        dispatch(createUserSuccess(user));
+        window.location = '/login';
       });
 };
 
@@ -50,27 +49,25 @@ export const fetchUsers = () => {
   .get('/api/users')
   .set({ 'x-access-token': token })
   .end((err, res) => {
+    Materialize.toast(res.body.message, 4000, 'rounded');
     dispatch(getUserSuccess(res.body.users));
   });
   };
 };
 
-export const login = (userCredentials) => {
-  return () => {
-    request
+export const login = (userCredentials) => () => {
+  request
     .post('/api/users/login')
     .send(userCredentials)
     .end((err, res) => {
+      Materialize.toast(res.body.message, 4000, 'rounded');
       if (err) {
-        Materialize.toast('Invalid Login Details', 4000, 'rounded');
-      } else {
-        const createdUser = Object.assign({}, res.body.user, { token: res.body.token });
-        localStorage.setItem('dms-user', res.body.token);
-        Materialize.toast('You have successfully login ', 4000, 'rounded');
-        window.location = '/';
+        return err;
       }
+      const createdUser = Object.assign({}, res.body.user, { token: res.body.token });
+      localStorage.setItem('dms-user', res.body.token);
+      window.location = '/';
     });
-  };
 };
 
 
@@ -78,16 +75,16 @@ export const updateUser = (user) => {
   const token = localStorage.getItem('dms-user');
   return (dispatch) => {
     request
-  .put(`/api/users/${user.id}`)
-  .send(user)
+  .put(`/api/users/${user.userId}`)
   .set({ 'x-access-token': token })
+  .send(user)
   .end((err, res) => {
+    Materialize.toast(res.body.message, 4000, 'rounded');
     if (err) {
       return err;
     }
-    dispatch(updateUserSuccess(res.body.document));
     window.location = '/register';
-    Materialize.toast('User successfully updated', 4000, 'rounded');
+    dispatch(updateUserSuccess(res.body.user));
   });
   };
 };
@@ -101,12 +98,12 @@ export const deleteUser = (id) => {
   .send(document)
   .set({ 'x-access-token': token })
   .end((err, res) => {
+    Materialize.toast(res.body.message, 4000, 'rounded');
     if (err) {
       return err;
     }
     dispatch(deleteUserSuccess(res.body.document));
     window.location = '/register';
-    Materialize.toast('User successfully deleted', 4000, 'rounded');
   });
   };
 };

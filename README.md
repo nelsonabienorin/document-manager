@@ -61,14 +61,19 @@ Requests to protected routes are validated using the generated token.
 Request type | Endpoint | Action
 ------------ | -------- | ------
 POST | [/users](#create-user) | Create a new user
+POST | [/users/login](#login) | To log a user in
+POST | [/users/logout](#logout) | To log a user out
 GET | [/users](#get-all-users) | Get all users
 GET | [/users/:id](#get-user) | Get details of a specific user
 PUT | [/users/:id](#edit-user) | Edit user details
 DELETE | [/users/:id](#delete-user) | Remove a user from storage
-GET | [/users/login](#login) | To log a user in
-GET | [/users/logout](#logout) | To log a user out
+GET | [/users/?limit={integer}&offset={integer}] |
+Pagination for users.
+GET | [/users/:id/documents](#user-documents) | Retrieve all
 GET | [/users/search](#search-user) | To search for a user
-GET | [/users/:id/documents](#user-documents) | Retrieve all documents created by a user
+documents created by a user
+GET | [/search/users/?q={username}] | Search for a user.
+GET | [/search/documents/?q={doctitle}] | Search for a doc.
 
 **Roles**
 
@@ -90,6 +95,8 @@ GET | [/documents/:id](#get-document) | Retrieve a specific document
 GET | [/documents?q=new](#search-document) | Search documents using key terms
 PUT | [/documents/:id](#edit-document) | Update a specific document
 DELETE | [/documents/:id](#delete-document) | Remove a specific document from storage
+DELETE | [/documents/:id](#delete-document) | Remove a specific document from storage
+GET | [/documents/?limit={integer}&offset={integer}] | Pagination for docs.
 
 The following are some sample request and response from the API.
 

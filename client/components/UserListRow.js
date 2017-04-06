@@ -2,14 +2,11 @@ import React, { propTypes } from 'react';
 import {Modal, Button, Row, Input} from 'react-materialize';
 import {connect} from 'react-redux';
 import { link } from 'react-router';
-import UserAction from '../actions/userAction';
+import * as UserAction from '../actions/userAction';
 
 class UserListRow extends React.Component{
-//= ({user}) => {
 constructor (props) {
         super(props);
-        const { updateUser } = this.props;
-        const { deleteUser } = this.props;
         this.state = {
         id: '',
         firstName:  '',
@@ -27,15 +24,20 @@ constructor (props) {
     }
     onSubmit(e){
     e.preventDefault();
-     const id = e.target.id.value;
+
+    console.log(this.props, "this is my props");
+     const { updateUser } = this.props;
+     const { deleteUser } = this.props;
+     const userId = e.target.id.value;
      const firstName = e.target.firstName.value;
      const lastName = e.target.lastName.value;
-     const userName = e.target.userName.defaultValue;
-     const email = e.target.email.defaultValue;
-     const roleId = e.target.roleId.defaultValue;
-     const userDetails = { id, firstName, lastName, userName, email, roleId};
-
-     this.props.updateUser(userDetails);
+     const userName = e.target.userName.value;
+     const email = e.target.email.value
+     const roleId = e.target.roleId.value;
+     const userDetails = {userId,firstName, lastName, userName, email, roleId};
+     console.log(userDetails, "Before action call ");
+     updateUser(userDetails);
+     deleteUser(userDetails);
   }
   render () {
    const user = this.props.user;
@@ -92,5 +94,7 @@ const mapStateToProps = (state) => {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserListRow);
+
+
 
 

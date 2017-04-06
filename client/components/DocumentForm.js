@@ -23,22 +23,6 @@ const DocumentForm = ({ document, onChange, onSave, errors }) => (
 					onChange={onChange}
 					error={errors} />
 			</div>
-      <div className="input-field col s4">
-				<TextInput
-					name="ownerRoleId"
-					label="ownerRoleId"
-					defaultvalue={document.ownerRoleId}
-					onChange={onChange}
-					error={errors} />
-			</div>
-			<div className="input-field col s4">
-				<TextInput
-					name="ownerId"
-					label="OwnerId"
-					defaultvalue={document.ownerId}
-					onChange={onChange}
-					error={errors} />
-			</div>
 		</div>
 	</form>
 );

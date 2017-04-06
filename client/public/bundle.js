@@ -9925,13 +9925,12 @@ var deleteUserSuccess = exports.deleteUserSuccess = function deleteUserSuccess(u
 var saveUser = exports.saveUser = function saveUser(user) {
   return function (dispatch) {
     _superagent2.default.post('/api/users').send(user).end(function (err, res) {
+      Materialize.toast(res.body.message, 4000, 'rounded');
       if (err) {
-        Materialize.toast('Unable to save', 4000, 'rounded');
-      } else {
-        dispatch(createUserSuccess(user));
-        Materialize.toast('Successful', 4000, 'rounded');
-        window.location = '/login';
+        return err;
       }
+      dispatch(createUserSuccess(user));
+      window.location = '/login';
     });
   };
 };
@@ -9940,6 +9939,7 @@ var fetchUsers = exports.fetchUsers = function fetchUsers() {
   var token = localStorage.getItem('dms-user');
   return function (dispatch) {
     _superagent2.default.get('/api/users').set({ 'x-access-token': token }).end(function (err, res) {
+      Materialize.toast(res.body.message, 4000, 'rounded');
       dispatch(getUserSuccess(res.body.users));
     });
   };
@@ -9948,14 +9948,13 @@ var fetchUsers = exports.fetchUsers = function fetchUsers() {
 var login = exports.login = function login(userCredentials) {
   return function () {
     _superagent2.default.post('/api/users/login').send(userCredentials).end(function (err, res) {
+      Materialize.toast(res.body.message, 4000, 'rounded');
       if (err) {
-        Materialize.toast('Invalid Login Details', 4000, 'rounded');
-      } else {
-        var createdUser = Object.assign({}, res.body.user, { token: res.body.token });
-        localStorage.setItem('dms-user', res.body.token);
-        Materialize.toast('You have successfully login ', 4000, 'rounded');
-        window.location = '/';
+        return err;
       }
+      var createdUser = Object.assign({}, res.body.user, { token: res.body.token });
+      localStorage.setItem('dms-user', res.body.token);
+      window.location = '/';
     });
   };
 };
@@ -9963,13 +9962,13 @@ var login = exports.login = function login(userCredentials) {
 var updateUser = exports.updateUser = function updateUser(user) {
   var token = localStorage.getItem('dms-user');
   return function (dispatch) {
-    _superagent2.default.put('/api/users/' + user.id).send(user).set({ 'x-access-token': token }).end(function (err, res) {
+    _superagent2.default.put('/api/users/' + user.userId).set({ 'x-access-token': token }).send(user).end(function (err, res) {
+      Materialize.toast(res.body.message, 4000, 'rounded');
       if (err) {
         return err;
       }
-      dispatch(updateUserSuccess(res.body.document));
       window.location = '/register';
-      Materialize.toast('User successfully updated', 4000, 'rounded');
+      dispatch(updateUserSuccess(res.body.user));
     });
   };
 };
@@ -9978,12 +9977,12 @@ var deleteUser = exports.deleteUser = function deleteUser(id) {
   var token = localStorage.getItem('dms-user');
   return function (dispatch) {
     _superagent2.default.delete('/api/users/' + id).send(document).set({ 'x-access-token': token }).end(function (err, res) {
+      Materialize.toast(res.body.message, 4000, 'rounded');
       if (err) {
         return err;
       }
       dispatch(deleteUserSuccess(res.body.document));
       window.location = '/register';
-      Materialize.toast('User successfully deleted', 4000, 'rounded');
     });
   };
 };
@@ -13519,7 +13518,7 @@ module.exports = function (module) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteDocument = exports.updateDocument = exports.documentSaver = exports.fetchDocuments = exports.fetchADocument = exports.documentApi = exports.deleteDocumentSuccess = exports.createDocumentSuccess = exports.updateDocumentSuccess = exports.getDocumentSuccess = exports.createDocument = undefined;
+exports.deleteDocument = exports.updateDocument = exports.documentSaver = exports.fetchDocuments = exports.fetchADocument = exports.deleteDocumentSuccess = exports.createDocumentSuccess = exports.updateDocumentSuccess = exports.getDocumentSuccess = exports.createDocument = undefined;
 
 var _superagent = __webpack_require__(118);
 
@@ -13573,25 +13572,25 @@ var deleteDocumentSuccess = exports.deleteDocumentSuccess = function deleteDocum
   };
 };
 
-// get roles
-var documentApi = exports.documentApi = function documentApi() {
-  var token = localStorage.getItem('dms-user');
-  return (0, _isomorphicFetch2.default)('/api/documents', {
-    method: 'GET',
-    headers: {
-      'x-access-token': token
-    }
-  }).then(function (response) {
-    if (response.status >= 400) {
-      throw new Error('Bad response from server');
-    }
-    return response.json();
-  }).then(function (documents) {
-    return documents;
-  }).catch(function (error) {
-    throw error;
-  });
-};
+// // get roles
+// export const documentApi = () => {
+//   const token = localStorage.getItem('dms-user');
+//   return fetch('/api/documents', {
+//     method: 'GET',
+//     headers: {
+//       'x-access-token': token
+//     }
+//   }).then((response) => {
+//     if (response.status >= 400) {
+//       throw new Error('Bad response from server');
+//     }
+//     return response.json();
+//   })
+//     .then(documents => documents)
+//     .catch((error) => {
+//       throw error;
+//     });
+// };
 
 var fetchADocument = exports.fetchADocument = function fetchADocument(documentId) {
   var token = localStorage.getItem('dms-user');
@@ -13602,7 +13601,10 @@ var fetchADocument = exports.fetchADocument = function fetchADocument(documentId
     }
   }).then(function (response) {
     if (response.status >= 400) {
+      Materialize.toast('Bad response from server, ' + res.body.message, 4000, 'rounded');
       throw new Error('Bad response from server');
+    } else {
+      Materialize.toast('Document Successfully retrieved, ' + res.body.message, 4000, 'rounded');
     }
     return response.json();
   }).then(function (document) {
@@ -13613,24 +13615,30 @@ var fetchADocument = exports.fetchADocument = function fetchADocument(documentId
 };
 
 // thunk
-var fetchDocuments = exports.fetchDocuments = function fetchDocuments() {
+var fetchDocuments = exports.fetchDocuments = function fetchDocuments(offset) {
+  var pageOffset = offset || 0;
   var token = localStorage.getItem('dms-user');
   return function (dispatch) {
-    _superagent2.default.get('/api/documents').set({ 'x-access-token': token }).end(function (err, res) {
-      dispatch(getDocumentSuccess(res.body.documents));
+    _superagent2.default.get('/api/documents?offset=' + pageOffset).set({ 'x-access-token': token }).end(function (err, res) {
+      console.log(res.body.pagination, "THis is my response body pagination");
+      Materialize.toast(res.body.message, 4000, 'rounded');
+      // dispatch(getDocumentSuccess(res.body.documents));
+      dispatch(getDocumentSuccess(res.body));
     });
   };
 };
 
 var documentSaver = exports.documentSaver = function documentSaver(document) {
+  console.log('am here in documentSaver');
   var token = localStorage.getItem('dms-user');
   return function (dispatch) {
     _superagent2.default.post('/api/documents').send(document).set({ 'x-access-token': token }).end(function (err, res) {
+      Materialize.toast(res.body.message, 4000, 'rounded');
       if (err) {
         return err;
       }
       dispatch(createDocumentSuccess(res.body.document));
-      window.location = '/createdoc';
+      window.location = '/documents';
     });
   };
 };
@@ -13639,12 +13647,12 @@ var updateDocument = exports.updateDocument = function updateDocument(document) 
   var token = localStorage.getItem('dms-user');
   return function (dispatch) {
     _superagent2.default.put('/api/documents/' + document.id).send(document).set({ 'x-access-token': token }).end(function (err, res) {
+      Materialize.toast(res.body.message, 4000, 'rounded');
       if (err) {
         return err;
       }
-      dispatch(updateDocumentSuccess(res.body.document));
       window.location = '/documents';
-      Materialize.toast('Document successfully updated', 4000, 'rounded');
+      dispatch(updateDocumentSuccess(res.body.updatedDocument));
     });
   };
 };
@@ -13653,6 +13661,7 @@ var deleteDocument = exports.deleteDocument = function deleteDocument(id) {
   var token = localStorage.getItem('dms-user');
   return function (dispatch) {
     _superagent2.default.delete('/api/documents/' + id).send(document).set({ 'x-access-token': token }).end(function (err, res) {
+      Materialize.toast(res.body.message, 4000, 'rounded');
       if (err) {
         return err;
       }
@@ -18335,6 +18344,7 @@ var roleSaver = exports.roleSaver = function roleSaver(role) {
   return function (dispatch) {
     var token = localStorage.getItem('dms-user');
     _superagent2.default.post('/api/roles').send(role).set({ 'x-access-token': token }).end(function (err, res) {
+      Materialize.toast(res.body.message, 4000, 'rounded');
       dispatch(createRoleSuccess(role));
       window.location = '/roles';
       return res;
@@ -18346,6 +18356,7 @@ var fetchRoles = exports.fetchRoles = function fetchRoles() {
   return function (dispatch) {
     var token = localStorage.getItem('dms-user');
     _superagent2.default.get('/api/roles').set({ 'x-access-token': token }).end(function (err, res) {
+      Materialize.toast(res.body.message, 4000, 'rounded');
       dispatch(getRoleSuccess(res.body.roles));
     });
   };
@@ -18409,26 +18420,6 @@ var DocumentForm = function DocumentForm(_ref) {
 					name: 'access',
 					label: 'Access',
 					defaultvalue: document.access,
-					onChange: onChange,
-					error: errors })
-			),
-			_react2.default.createElement(
-				'div',
-				{ className: 'input-field col s4' },
-				_react2.default.createElement(_TextInput2.default, {
-					name: 'ownerRoleId',
-					label: 'ownerRoleId',
-					defaultvalue: document.ownerRoleId,
-					onChange: onChange,
-					error: errors })
-			),
-			_react2.default.createElement(
-				'div',
-				{ className: 'input-field col s4' },
-				_react2.default.createElement(_TextInput2.default, {
-					name: 'ownerId',
-					label: 'OwnerId',
-					defaultvalue: document.ownerId,
 					onChange: onChange,
 					error: errors })
 			)
@@ -18520,6 +18511,13 @@ var renderIfLoggedIn = function renderIfLoggedIn() {
 			_react2.default.createElement(
 				'li',
 				null,
+				_react2.default.createElement('input', { id: 'search', placeholder: 'search here', onChange: function onChange(e) {
+						searchOnChange(e);
+					} })
+			),
+			_react2.default.createElement(
+				'li',
+				null,
 				_react2.default.createElement(
 					_reactRouter.Link,
 					{ to: '/logout', activeClassName: 'active', className: 'right' },
@@ -18576,7 +18574,9 @@ var Header = function Header() {
 		)
 	);
 };
-
+var searchOnChange = function searchOnChange(e) {
+	console.log(e.target.value, "my value");
+};
 exports.default = Header;
 
 /***/ }),
@@ -46286,6 +46286,7 @@ var DocumentList = function (_React$Component) {
 
     var updateDocument = _this.props.updateDocument;
     var deleteDocument = _this.props.deleteDocument;
+    var fetchDocuments = _this.props.fetchDocuments;
 
     _this.state = {
       id: '',
@@ -46309,13 +46310,19 @@ var DocumentList = function (_React$Component) {
       this.props.deleteDocument(id);
     }
   }, {
+    key: 'onSelect',
+    value: function onSelect(pageNo) {
+      var offset = (pageNo - 1) * 10;
+      this.props.fetchDocuments(offset);
+    }
+  }, {
     key: 'onSubmit',
     value: function onSubmit(e) {
       e.preventDefault();
       var id = e.target.id.value;
       var title = e.target.title.value;
       var access = e.target.access.value;
-      var content = e.target.content.defaultValue;
+      var content = e.target.content.value;
       var documentDetails = { id: id, title: title, access: access, content: content };
       this.props.updateDocument(documentDetails);
     }
@@ -46324,106 +46331,122 @@ var DocumentList = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      var doc = this.props.documents.rows;
-
+      var pagination = null;
+      var doc = null;
+      if (this.props.documentDetails.documents && this.props.documentDetails.documents.rows) {
+        doc = this.props.documentDetails.documents.rows;
+        pagination = this.props.documentDetails.pagination;
+        console.log(pagination);
+      }
       return _react2.default.createElement(
         'div',
-        { className: 'row' },
-        doc && doc.map(function (document) {
-          return _react2.default.createElement(
-            'div',
-            { key: document.id },
-            _react2.default.createElement(
+        null,
+        doc ? _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          doc.map(function (document) {
+            return _react2.default.createElement(
               'div',
-              { className: 'col s3' },
+              { key: document.id },
               _react2.default.createElement(
                 'div',
-                { className: 'card white darken-1', style: { height: 300 } },
+                { className: 'col s3' },
                 _react2.default.createElement(
                   'div',
-                  { className: 'card-content black-text' },
-                  _react2.default.createElement(_DocumentListTitle2.default, { document: document }),
-                  _react2.default.createElement(_DocumentContent2.default, { document: document })
-                ),
-                _react2.default.createElement(
-                  'div',
-                  { className: 'card-action' },
+                  { className: 'card white darken-1', style: { height: 300 } },
                   _react2.default.createElement(
-                    'a',
-                    null,
-                    'Published: ',
-                    (0, _moment2.default)(document.createdAt).format('MMMM Do YYYY')
+                    'div',
+                    { className: 'card-content black-text' },
+                    _react2.default.createElement(_DocumentListTitle2.default, { document: document }),
+                    _react2.default.createElement(_DocumentContent2.default, { document: document })
                   ),
-                  ' ',
-                  _react2.default.createElement('br', null),
                   _react2.default.createElement(
                     'div',
                     { className: 'card-action' },
                     _react2.default.createElement(
-                      _reactMaterialize.Modal,
-                      {
-                        header: 'Edit Document',
-                        trigger: _react2.default.createElement(
-                          _reactMaterialize.Button,
-                          { waves: 'light', className: 'btn-floating btn-large blue darken-4 right' },
-                          _react2.default.createElement(
-                            'i',
-                            { className: 'large material-icons' },
-                            'mode_edit'
-                          )
-                        ) },
-                      _react2.default.createElement(
-                        'form',
-                        { className: 'col s12', method: 'post', onSubmit: function onSubmit(e) {
-                            return _this2.onSubmit(e);
-                          } },
-                        _react2.default.createElement(
-                          _reactMaterialize.Row,
-                          null,
-                          _react2.default.createElement(_reactMaterialize.Input, { s: 6, value: 'DOC ID' }),
-                          _react2.default.createElement(_reactMaterialize.Input, { s: 6, name: 'id', value: document.id })
-                        ),
-                        _react2.default.createElement(
-                          _reactMaterialize.Row,
-                          null,
-                          _react2.default.createElement(_reactMaterialize.Input, { s: 6, name: 'title', value: _this2.state.title === '' ? document.title : _this2.state.title, onChange: function onChange(e) {
-                              return _this2.fieldChange(e);
-                            } }),
-                          _react2.default.createElement(_reactMaterialize.Input, { s: 6, name: 'access', value: _this2.state.access === '' ? document.access : _this2.state.access, onChange: function onChange(e) {
-                              return _this2.fieldChange(e);
-                            } })
-                        ),
-                        _react2.default.createElement(
-                          _reactMaterialize.Row,
-                          null,
-                          _react2.default.createElement('textarea', { name: 'content', value: _this2.state.content === '' ? document.content : _this2.state.content, onChange: function onChange(e) {
-                              return _this2.fieldChange(e);
-                            }, label: 'Content', className: 'materialize-textarea' })
-                        ),
-                        _react2.default.createElement(
-                          _reactMaterialize.Button,
-                          { className: 'blue darken-4', waves: 'light', type: 'submit' },
-                          'UPDATE'
-                        )
-                      )
+                      'a',
+                      null,
+                      'Published: ',
+                      (0, _moment2.default)(document.createdAt).format('MMMM Do YYYY')
                     ),
+                    ' ',
+                    _react2.default.createElement('br', null),
                     _react2.default.createElement(
-                      _reactMaterialize.Button,
-                      { waves: 'light', onClick: function onClick(e) {
-                          return _this2.deleteDoc(document.id);
-                        }, className: 'btn-floating btn-large red darken-2 right' },
+                      'div',
+                      { className: 'card-action' },
                       _react2.default.createElement(
-                        'i',
-                        { className: 'large material-icons' },
-                        'delete'
+                        _reactMaterialize.Modal,
+                        {
+                          header: 'Edit Document',
+                          trigger: _react2.default.createElement(
+                            _reactMaterialize.Button,
+                            { waves: 'light', className: 'btn-floating btn-large blue darken-4 right' },
+                            _react2.default.createElement(
+                              'i',
+                              { className: 'large material-icons' },
+                              'mode_edit'
+                            )
+                          ) },
+                        _react2.default.createElement(
+                          'form',
+                          { className: 'col s12', method: 'post', onSubmit: function onSubmit(e) {
+                              return _this2.onSubmit(e);
+                            } },
+                          _react2.default.createElement(
+                            _reactMaterialize.Row,
+                            null,
+                            _react2.default.createElement(_reactMaterialize.Input, { s: 6, value: 'DOC ID' }),
+                            _react2.default.createElement(_reactMaterialize.Input, { s: 6, name: 'id', value: document.id })
+                          ),
+                          _react2.default.createElement(
+                            _reactMaterialize.Row,
+                            null,
+                            _react2.default.createElement(_reactMaterialize.Input, { s: 6, name: 'title', value: _this2.state.title === '' ? document.title : _this2.state.title, onChange: function onChange(e) {
+                                return _this2.fieldChange(e);
+                              } }),
+                            _react2.default.createElement(_reactMaterialize.Input, { s: 6, name: 'access', value: _this2.state.access === '' ? document.access : _this2.state.access, onChange: function onChange(e) {
+                                return _this2.fieldChange(e);
+                              } })
+                          ),
+                          _react2.default.createElement(
+                            _reactMaterialize.Row,
+                            null,
+                            _react2.default.createElement('textarea', { name: 'content', value: _this2.state.content === '' ? document.content : _this2.state.content, onChange: function onChange(e) {
+                                return _this2.fieldChange(e);
+                              }, label: 'Content', className: 'materialize-textarea' })
+                          ),
+                          _react2.default.createElement(
+                            _reactMaterialize.Button,
+                            { className: 'blue darken-4', waves: 'light', type: 'submit' },
+                            'UPDATE'
+                          )
+                        )
+                      ),
+                      _react2.default.createElement(
+                        _reactMaterialize.Button,
+                        { waves: 'light', onClick: function onClick(e) {
+                            return _this2.deleteDoc(document.id);
+                          }, className: 'btn-floating btn-large red darken-2 right' },
+                        _react2.default.createElement(
+                          'i',
+                          { className: 'large material-icons' },
+                          'delete'
+                        )
                       )
                     )
                   )
                 )
               )
-            )
-          );
-        })
+            );
+          }),
+          pagination ? _react2.default.createElement(_reactMaterialize.Pagination, { items: pagination.page_count, activePage: 2, maxButtons: 5, onSelect: function onSelect(e) {
+              return _this2.onSelect(e);
+            } }) : ''
+        ) : _react2.default.createElement(
+          'div',
+          null,
+          'Not document'
+        )
       );
     }
   }]);
@@ -46441,6 +46464,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     deleteDocument: function deleteDocument(id) {
       return dispatch(DocumentAction.deleteDocument(id));
+    },
+    fetchDocuments: function fetchDocuments(offset) {
+      return dispatch(DocumentAction.fetchDocuments(offset));
     }
   };
 };
@@ -46452,7 +46478,6 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(DocumentList);
-// export default DocumentList;
 
 /***/ }),
 /* 399 */
@@ -47244,7 +47269,9 @@ var _reactRouter = __webpack_require__(41);
 
 var _userAction = __webpack_require__(81);
 
-var _userAction2 = _interopRequireDefault(_userAction);
+var UserAction = _interopRequireWildcard(_userAction);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47259,14 +47286,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var UserListRow = function (_React$Component) {
   _inherits(UserListRow, _React$Component);
 
-  //= ({user}) => {
   function UserListRow(props) {
     _classCallCheck(this, UserListRow);
 
     var _this = _possibleConstructorReturn(this, (UserListRow.__proto__ || Object.getPrototypeOf(UserListRow)).call(this, props));
-
-    var updateUser = _this.props.updateUser;
-    var deleteUser = _this.props.deleteUser;
 
     _this.state = {
       id: '',
@@ -47293,15 +47316,21 @@ var UserListRow = function (_React$Component) {
     key: 'onSubmit',
     value: function onSubmit(e) {
       e.preventDefault();
-      var id = e.target.id.value;
+
+      console.log(this.props, "this is my props");
+      var updateUser = this.props.updateUser;
+      var deleteUser = this.props.deleteUser;
+
+      var userId = e.target.id.value;
       var firstName = e.target.firstName.value;
       var lastName = e.target.lastName.value;
-      var userName = e.target.userName.defaultValue;
-      var email = e.target.email.defaultValue;
-      var roleId = e.target.roleId.defaultValue;
-      var userDetails = { id: id, firstName: firstName, lastName: lastName, userName: userName, email: email, roleId: roleId };
-
-      this.props.updateUser(userDetails);
+      var userName = e.target.userName.value;
+      var email = e.target.email.value;
+      var roleId = e.target.roleId.value;
+      var userDetails = { userId: userId, firstName: firstName, lastName: lastName, userName: userName, email: email, roleId: roleId };
+      console.log(userDetails, "Before action call ");
+      updateUser(userDetails);
+      deleteUser(userDetails);
     }
   }, {
     key: 'render',
@@ -47431,10 +47460,10 @@ var UserListRow = function (_React$Component) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     updateUser: function updateUser(userDetails) {
-      return dispatch(_userAction2.default.updateUser(userDetails));
+      return dispatch(UserAction.updateUser(userDetails));
     },
     deleteUser: function deleteUser(id) {
-      return dispatch(_userAction2.default.deleteUser(id));
+      return dispatch(UserAction.deleteUser(id));
     }
   };
 };
@@ -48403,6 +48432,7 @@ var documentsReducer = function documentsReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _initialState2.default.documents;
   var action = arguments[1];
 
+  console.log(state, "THis is my state in the reducer");
   switch (action.type) {
     case types.CREATE_DOCUMENT:
       return [].concat(_toConsumableArray(state), [Object.assign({}, action.documents)]);
@@ -48411,6 +48441,9 @@ var documentsReducer = function documentsReducer() {
     case types.CREATE_DOCUMENT_SUCCESS:
       return [].concat(_toConsumableArray(state), [Object.assign({}, action.document)]);
     case types.UPDATE_DOCUMENT_SUCCESS:
+      console.log(document, "document in reducer");
+      console.log(document.id, "document.id in reducer");
+      console.log(action.document.id, "action.document.id in reducer");
       return [].concat(_toConsumableArray(state.filter(function (document) {
         return document.id !== action.document.id;
       })), [Object.assign({}, action.document)]);
