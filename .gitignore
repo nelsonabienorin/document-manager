@@ -19,3 +19,5 @@ coverage
 .vscode
 .env
 selenium-debug.log
+screenshots
+reports
