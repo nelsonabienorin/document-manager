@@ -18,3 +18,4 @@ coverage
 .coveralls.yml
 .vscode
 .env
+selenium-debug.log
