@@ -24,8 +24,6 @@ constructor (props) {
     }
     onSubmit(e){
     e.preventDefault();
-
-    console.log(this.props, "this is my props");
      const { updateUser } = this.props;
      const { deleteUser } = this.props;
      const userId = e.target.id.value;
@@ -35,7 +33,6 @@ constructor (props) {
      const email = e.target.email.value
      const roleId = e.target.roleId.value;
      const userDetails = {userId,firstName, lastName, userName, email, roleId};
-     console.log(userDetails, "Before action call ");
      updateUser(userDetails);
      deleteUser(userDetails);
   }

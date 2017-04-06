@@ -13620,16 +13620,13 @@ var fetchDocuments = exports.fetchDocuments = function fetchDocuments(offset) {
   var token = localStorage.getItem('dms-user');
   return function (dispatch) {
     _superagent2.default.get('/api/documents?offset=' + pageOffset).set({ 'x-access-token': token }).end(function (err, res) {
-      console.log(res.body.pagination, "THis is my response body pagination");
       Materialize.toast(res.body.message, 4000, 'rounded');
-      // dispatch(getDocumentSuccess(res.body.documents));
       dispatch(getDocumentSuccess(res.body));
     });
   };
 };
 
 var documentSaver = exports.documentSaver = function documentSaver(document) {
-  console.log('am here in documentSaver');
   var token = localStorage.getItem('dms-user');
   return function (dispatch) {
     _superagent2.default.post('/api/documents').send(document).set({ 'x-access-token': token }).end(function (err, res) {
@@ -18575,7 +18572,7 @@ var Header = function Header() {
 	);
 };
 var searchOnChange = function searchOnChange(e) {
-	console.log(e.target.value, "my value");
+	return e.target.value;
 };
 exports.default = Header;
 
@@ -46336,7 +46333,6 @@ var DocumentList = function (_React$Component) {
       if (this.props.documentDetails.documents && this.props.documentDetails.documents.rows) {
         doc = this.props.documentDetails.documents.rows;
         pagination = this.props.documentDetails.pagination;
-        console.log(pagination);
       }
       return _react2.default.createElement(
         'div',
@@ -47316,8 +47312,6 @@ var UserListRow = function (_React$Component) {
     key: 'onSubmit',
     value: function onSubmit(e) {
       e.preventDefault();
-
-      console.log(this.props, "this is my props");
       var updateUser = this.props.updateUser;
       var deleteUser = this.props.deleteUser;
 
@@ -47328,7 +47322,6 @@ var UserListRow = function (_React$Component) {
       var email = e.target.email.value;
       var roleId = e.target.roleId.value;
       var userDetails = { userId: userId, firstName: firstName, lastName: lastName, userName: userName, email: email, roleId: roleId };
-      console.log(userDetails, "Before action call ");
       updateUser(userDetails);
       deleteUser(userDetails);
     }
@@ -48432,7 +48425,6 @@ var documentsReducer = function documentsReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _initialState2.default.documents;
   var action = arguments[1];
 
-  console.log(state, "THis is my state in the reducer");
   switch (action.type) {
     case types.CREATE_DOCUMENT:
       return [].concat(_toConsumableArray(state), [Object.assign({}, action.documents)]);
@@ -48441,9 +48433,6 @@ var documentsReducer = function documentsReducer() {
     case types.CREATE_DOCUMENT_SUCCESS:
       return [].concat(_toConsumableArray(state), [Object.assign({}, action.document)]);
     case types.UPDATE_DOCUMENT_SUCCESS:
-      console.log(document, "document in reducer");
-      console.log(document.id, "document.id in reducer");
-      console.log(action.document.id, "action.document.id in reducer");
       return [].concat(_toConsumableArray(state.filter(function (document) {
         return document.id !== action.document.id;
       })), [Object.assign({}, action.document)]);

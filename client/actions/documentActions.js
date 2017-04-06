@@ -82,16 +82,13 @@ export const fetchDocuments = (offset) => {
   .get(`/api/documents?offset=${pageOffset}`)
   .set({ 'x-access-token': token })
   .end((err, res) => {
-    console.log(res.body.pagination, "THis is my response body pagination");
     Materialize.toast(res.body.message, 4000, 'rounded');
-   // dispatch(getDocumentSuccess(res.body.documents));
     dispatch(getDocumentSuccess(res.body));
   });
   };
 };
 
 export const documentSaver = (document) => {
-  console.log('am here in documentSaver');
   const token = localStorage.getItem('dms-user');
   return (dispatch) => {
     request

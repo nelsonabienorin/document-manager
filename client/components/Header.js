@@ -57,6 +57,6 @@ const Header = () => (
 
   );
 const searchOnChange = (e) =>{
-	console.log(e.target.value, "my value");
+	return e.target.value;
 }
 export default Header;
