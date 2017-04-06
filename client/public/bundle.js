@@ -13572,26 +13572,6 @@ var deleteDocumentSuccess = exports.deleteDocumentSuccess = function deleteDocum
   };
 };
 
-// // get roles
-// export const documentApi = () => {
-//   const token = localStorage.getItem('dms-user');
-//   return fetch('/api/documents', {
-//     method: 'GET',
-//     headers: {
-//       'x-access-token': token
-//     }
-//   }).then((response) => {
-//     if (response.status >= 400) {
-//       throw new Error('Bad response from server');
-//     }
-//     return response.json();
-//   })
-//     .then(documents => documents)
-//     .catch((error) => {
-//       throw error;
-//     });
-// };
-
 var fetchADocument = exports.fetchADocument = function fetchADocument(documentId) {
   var token = localStorage.getItem('dms-user');
   return (0, _isomorphicFetch2.default)('/api/roles/' + documentId, {

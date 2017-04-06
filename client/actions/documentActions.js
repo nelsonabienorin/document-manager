@@ -30,26 +30,6 @@ export const deleteDocumentSuccess = document => ({
   document
 });
 
-// // get roles
-// export const documentApi = () => {
-//   const token = localStorage.getItem('dms-user');
-//   return fetch('/api/documents', {
-//     method: 'GET',
-//     headers: {
-//       'x-access-token': token
-//     }
-//   }).then((response) => {
-//     if (response.status >= 400) {
-//       throw new Error('Bad response from server');
-//     }
-//     return response.json();
-//   })
-//     .then(documents => documents)
-//     .catch((error) => {
-//       throw error;
-//     });
-// };
-
 export const fetchADocument = (documentId) => {
   const token = localStorage.getItem('dms-user');
   return fetch(`/api/roles/${documentId}`, {
