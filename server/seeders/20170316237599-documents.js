@@ -1,7 +1,7 @@
 const faker = require('faker');
 
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.bulkInsert('documents', [
+  up: queryInterface => queryInterface.bulkInsert('Documents', [
     {
       title: 'Digitized impactful Graphic Interface',
       content: `Cumque dolorum laborum sint id. Error cumque ipsa
@@ -10,8 +10,8 @@ module.exports = {
       quae eveniet. Ut adipisci ut occaecati id assumenda nihil.
       Eos repudiandae est sed qui est sapiente temporibus dolorem.`,
       access: 'public',
-      userId: 1,
-      userRoleId: 1,
+      ownerRoleId: 1,
+      ownerId: 1,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -19,8 +19,8 @@ module.exports = {
       title: faker.company.catchPhrase(),
       content: faker.lorem.paragraph(),
       access: 'private',
-      userId: 2,
-      userRoleId: 1,
+      ownerRoleId: 2,
+      ownerId: 1,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -28,8 +28,8 @@ module.exports = {
       title: faker.company.catchPhrase(),
       content: faker.lorem.paragraph(),
       access: 'public',
-      userId: 3,
-      userRoleId: 2,
+      ownerRoleId: 3,
+      ownerId: 2,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -37,8 +37,8 @@ module.exports = {
       title: faker.company.catchPhrase(),
       content: faker.lorem.paragraph(),
       access: 'private',
-      userId: 4,
-      userRoleId: 2,
+      ownerRoleId: 4,
+      ownerId: 2,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -46,13 +46,256 @@ module.exports = {
       title: faker.company.catchPhrase(),
       content: faker.lorem.paragraph(),
       access: 'public',
-      userId: 5,
-      userRoleId: 2,
+      ownerRoleId: 5,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'private',
+      ownerRoleId: 2,
+      ownerId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'public',
+      ownerRoleId: 3,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'private',
+      ownerRoleId: 4,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'public',
+      ownerRoleId: 5,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'private',
+      ownerRoleId: 2,
+      ownerId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'public',
+      ownerRoleId: 3,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'private',
+      ownerRoleId: 4,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'public',
+      ownerRoleId: 5,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'private',
+      ownerRoleId: 2,
+      ownerId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'public',
+      ownerRoleId: 3,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'private',
+      ownerRoleId: 4,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'private',
+      ownerRoleId: 2,
+      ownerId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'public',
+      ownerRoleId: 3,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'private',
+      ownerRoleId: 4,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'public',
+      ownerRoleId: 5,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'private',
+      ownerRoleId: 2,
+      ownerId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'public',
+      ownerRoleId: 3,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'private',
+      ownerRoleId: 4,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'public',
+      ownerRoleId: 5,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'private',
+      ownerRoleId: 2,
+      ownerId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'public',
+      ownerRoleId: 3,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'private',
+      ownerRoleId: 4,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'public',
+      ownerRoleId: 5,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'private',
+      ownerRoleId: 2,
+      ownerId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'public',
+      ownerRoleId: 3,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'private',
+      ownerRoleId: 4,
+      ownerId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: faker.company.catchPhrase(),
+      content: faker.lorem.paragraph(),
+      access: 'public',
+      ownerRoleId: 5,
+      ownerId: 2,
       createdAt: new Date(),
       updatedAt: new Date()
     }
   ], {}),
 
-  down: (queryInterface, Sequelize) => queryInterface.bulkDelete('documents',
+  down: queryInterface => queryInterface.bulkDelete('Person',
   null, {})
 };
