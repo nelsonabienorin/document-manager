@@ -17,3 +17,7 @@ coverage
 .DS_Store
 .coveralls.yml
 .vscode
+.env
+selenium-debug.log
+screenshots
+reports
