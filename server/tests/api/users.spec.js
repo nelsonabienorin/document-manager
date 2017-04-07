@@ -138,6 +138,17 @@ describe('User API :', () => {
         });
       });
 
+      it('should not allow user to update another user record', (done) => {
+        updateProfile = { firstName: 'Markafina' };
+        superRequest.put(`/api/users/${regularUser1.id}`)
+        .send(updateProfile)
+        .set({ 'x-access-token': regularToken })
+        .end((err, res) => {
+          expect(res.status).to.equal(401);
+          done();
+        });
+      });
+
       it('should not allow unregistered users to login', (done) => {
         superRequest.post('/api/users/login')
         .send(helper.firstUser)

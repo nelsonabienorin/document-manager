@@ -31,7 +31,7 @@ export const deleteDocumentSuccess = document => ({
 
 // thunk
 export const fetchDocuments = (offset) => {
-  const pageOffset = offset || 0;
+  const pageOffset = offset ? offset : 0;
   const token = localStorage.getItem('dms-user');
   return (dispatch) => {
     request

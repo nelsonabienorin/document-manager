@@ -290,7 +290,7 @@ describe('DOCUMENT API', () => {
           });
       });
 
-      it('should NOT return document when user is not the owner', (done) => {
+      it('should NOT return private document when user is not the owner', (done) => {
         superRequest.get(`/api/documents/${privateDocument.id}`)
           .set({ 'x-access-token': regularToken2 })
           .end((err, res) => {
@@ -435,6 +435,7 @@ describe('DOCUMENT API', () => {
         .set({ 'x-access-token': regularToken2 })
         .end((err, res) => {
           expect(res.status).to.equal(200);
+          expect(res.body.pagination.page_size).to.equal(4);
           res.body.documents.rows.forEach((doc) => {
             if (doc.ownerId === regularUser2.id) {
               expect(doc.access).to.be.oneOf(['role', 'private', 'public']);

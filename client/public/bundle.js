@@ -13570,7 +13570,7 @@ var deleteDocumentSuccess = exports.deleteDocumentSuccess = function deleteDocum
 
 // thunk
 var fetchDocuments = exports.fetchDocuments = function fetchDocuments(offset) {
-  var pageOffset = offset || 0;
+  var pageOffset = offset ? offset : 0;
   var token = localStorage.getItem('dms-user');
   return function (dispatch) {
     _superagent2.default.get('/api/documents?offset=' + pageOffset).set({ 'x-access-token': token }).end(function (err, res) {
