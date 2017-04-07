@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import toastr from 'toastr';
 import { bindActionCreators } from 'redux';
 import * as roleActions from '../actions/roleAction';
 import RoleForm from '../components/RoleForm';
@@ -28,7 +27,6 @@ class ManageRolePage extends React.Component {
     this.props.saveRole(this.state.role);
     this.context.router.push('/');
     this.setState({ saving: true });
-    // toastr.success('Role saved');
   }
 
   render() {
@@ -45,13 +43,12 @@ class ManageRolePage extends React.Component {
   }
 }
 
-ManageRolePage.PropTypes = {
-
-};
+ManageRolePage.PropTypes = {};
 
 ManageRolePage.contextTypes = {
   router: PropTypes.object
 };
+
 const mapDispatchToProps = dispatch => ({
   saveRole: role => dispatch(roleActions.roleSaver(role))
 });
@@ -62,4 +59,5 @@ const mapStateToProps = (state) => {
     roles: role
   };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(ManageRolePage);

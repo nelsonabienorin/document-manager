@@ -13,6 +13,7 @@ class Role extends React.Component {
     };
     this.redirectToRolePage = this.redirectToRolePage.bind(this);
   }
+
   componentWillMount() {
     this.props.loadRoles();
   }
@@ -47,5 +48,6 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = (state) => ({
   roles: state.roles
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(Role);
 export { Role as PureMyComponent };

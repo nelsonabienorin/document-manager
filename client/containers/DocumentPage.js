@@ -5,8 +5,8 @@ import * as documentAction from '../actions/documentActions';
 import DocumentList from '../components/DocumentList';
 
 /**
-   * @class DocumentPage
-   */
+  * @class DocumentPage
+  */
 class DocumentPage extends React.Component {
   /**
    * @constructor constructor

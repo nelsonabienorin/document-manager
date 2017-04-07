@@ -4,7 +4,6 @@ import toastr from 'toastr';
 import * as userAction from '../actions/userAction';
 import UserForm from '../components/userForm';
 
-
 class ManageUserPage extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -29,7 +28,6 @@ class ManageUserPage extends React.Component {
     this.setState({ saving: true });
     toastr.success('User saved');
   }
-
   render() {
     return (
 			<div>
@@ -45,16 +43,15 @@ class ManageUserPage extends React.Component {
     );
   }
 }
-
 const mapDispatchToProps = dispatch => ({
   saveUser: user => dispatch(userAction.saveUser(user)),
   fetchUsers: () => dispatch(userAction.fetchUsers())
 });
-
 const mapStateToProps = (state) => {
   const user = { firstName: '', lastName: '', userName: '', email: '', password: '', roleId: '' };
   return {
     user
   };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(ManageUserPage);

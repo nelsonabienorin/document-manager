@@ -6,4 +6,4 @@ package.json
 webpack.config.js
 client/routes.js
 client/components
-client/container
+client/containers

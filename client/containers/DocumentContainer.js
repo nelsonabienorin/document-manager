@@ -34,7 +34,6 @@ class DocumentContainer extends React.Component {
     return this.setState({ document });
   }
 
-
   updateDocumentState(event) {
     const field = event.target.name;
     const document = this.state.document;
@@ -49,7 +48,6 @@ class DocumentContainer extends React.Component {
 					onChange={this.updateDocumentState}
 					onSave={this.handleFormSubmit}
 					errors={this.state.error} />
-
 				<DocumentMarkdown
 					document={this.state.document}
 					onChange={this.handleEditorchange} />

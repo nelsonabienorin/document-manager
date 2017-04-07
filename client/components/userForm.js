@@ -11,48 +11,37 @@ const UserForm = ({ user, onSave, onChange, loading, errors }) => (
 						defaultvalue={user.firstname}
 						onChange={onChange}
 						error={errors} />
-
-
 					<TextInput
 						name="lastname"
 						label="Lastname"
 						defaultvalue={user.lastname}
 						onChange={onChange}
 						error={errors} />
-
-
 					<TextInput
 						name="username"
 						label="username"
 						defaultvalue={user.username}
 						onChange={onChange}
 						error={errors} />
-
-
 					<TextInput
 						name="email"
 						label="email"
 						defaultvalue={user.email}
 						onChange={onChange}
 						error={errors} />
-
-
 					<TextInput
 						name="password"
 						label="password"
 						defaultvalue={user.password}
 						onChange={onChange}
 						error={errors} />
-
-
 					<TextInput
 						name="roleId"
 						label="role"
 						defaultvalue={user.roleId}
 						onChange={onChange}
 						error={errors} />
-					<a
-						disabled={loading}
+					<a disabled={loading}
 						value={loading ? 'saving ...' : 'save'}
 						className="btn blue darken-4"
 						onClick={onSave} > SignUp </a>

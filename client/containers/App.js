@@ -1,15 +1,14 @@
 import React, { PropTypes } from 'react';
 import Header from '../components/Header';
 
-
 class App extends React.Component {
   render() {
     return (
-    <div className="container-fluid">
-	  <Header />
-	  {this.props.children}
-		</div>
-  );
+      <div className="container-fluid">
+	    <Header />
+	      {this.props.children}
+		  </div>
+    );
   }
 }
 App.PropTypes = {

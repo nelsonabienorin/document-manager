@@ -39,7 +39,6 @@ User.PropTypes = {
   users: PropTypes.array.isRequired
 };
 
-
 // we map our dispatch to custom saveUser props
 const mapDispatchToProps = dispatch => ({
   saveUser: user => dispatch(userActions.saveUser(user)),
@@ -51,4 +50,5 @@ const mapStateToProps = (state) => {
     users: state.user
   };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(User);
