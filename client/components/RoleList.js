@@ -12,7 +12,6 @@ const RoleList = ({ roles }) => (
                     <th>Updated At</th>
                 </tr>
             </thead>
-            {console.log(roles,"GGGGGG")}
                 {roles.map(role =>
                     <RoleListRow key = {role.id} role = {role}/>
                 )}

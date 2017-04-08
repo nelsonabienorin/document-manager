@@ -18552,7 +18552,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var RoleListRow = function RoleListRow(_ref) {
     var role = _ref.role;
 
-    console.log(role);
+
     return _react2.default.createElement(
         'tr',
         null,
@@ -46287,9 +46287,7 @@ var DocumentList = function (_React$Component) {
       var doc = null;
       if (this.props.documentDetails.documents && this.props.documentDetails.documents.rows) {
         doc = this.props.documentDetails.documents.rows;
-        console.log(doc);
         pagination = this.props.documentDetails.pagination;
-        console.log(pagination, "pagination");
       }
       return _react2.default.createElement(
         'div',
@@ -46911,7 +46909,6 @@ var RoleList = function RoleList(_ref) {
                 )
             )
         ),
-        console.log(roles, "GGGGGG"),
         roles.map(function (role) {
             return _react2.default.createElement(_RoleListRow2.default, { key: role.id, role: role });
         }),

@@ -89,7 +89,7 @@
     "db:test:drop": "NODE_ENV=test sequelize db:migrate:undo:all",
     "migrate:test:db": "NODE_ENV=test sequelize db:migrate",
     "e2e": "node_modules/.bin/nightwatch --config nightwatch.config.js",
-    "coverage": "cross-env NODE_ENV=test node_modules/.bin/istanbul cover  ./node_modules/.bin/_mocha  server/tests/**/**.spec.js -- --require babel-register --timeout 90000"
+    "coverage": "cross-env NODE_ENV=test node_modules/.bin/istanbul cover  ./node_modules/.bin/_mocha  server/tests/**/**.spec.js -- --require babel-register --timeout 9000000"
   },
   "repository": {
     "type": "git",

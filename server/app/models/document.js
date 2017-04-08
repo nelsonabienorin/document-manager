@@ -56,3 +56,4 @@ const documentSchema = (sequelize, DataTypes) => {
 };
 
 export default documentSchema ;
+
