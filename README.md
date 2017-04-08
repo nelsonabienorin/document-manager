@@ -1,5 +1,4 @@
 [![Build Status](https://travis-ci.org/andela-nrotimi/document-manager.svg?branch=feedback)](https://travis-ci.org/andela-nrotimi/document-manager)
-
 [![Coverage Status](https://coveralls.io/repos/github/andela-nrotimi/document-manager/badge.svg?branch=feedback)](https://coveralls.io/github/andela-nrotimi/document-manager?branch=feedback)
 
 # Document Management System
