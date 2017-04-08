@@ -10,5 +10,7 @@ before_script:
   - psql -c 'create database docman_test;' -U postgres
 script:
   - npm test
+after_script:
+- cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 addons:
   postgresql: "9.3"
