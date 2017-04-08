@@ -7,6 +7,7 @@ const documentSchema = (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         notEmpty: {
           msg: 'This field cannot be empty'

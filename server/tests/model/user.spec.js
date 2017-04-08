@@ -18,11 +18,19 @@ describe('User Model', () => {
   let regularUser;
 
   before((done) => {
-    db.Role.create({ title: 'regular', id: 2 }).then(() => {
+    db.Role.create({
+      title: 'regular',
+      id: 2
+    }).then(() => {
       done();
     });
   });
-  after((done) => { db.Role.destroy({ where: {} }); done(); });
+  after((done) => {
+    db.Role.destroy({
+      where: {}
+    });
+    done();
+  });
 
   describe('Create user', () => {
     it('should create a user', (done) => {
@@ -56,33 +64,44 @@ describe('User Model', () => {
     });
 
     it('should not create a user when password character is not up to 8',
-    (done) => {
-      db.User.create(helper.invalidPasswordUser)
-        .then()
-        .catch((error) => {
-          expect(error.errors[0].message)
-            .to.equal('Minimum of 8 characters is required');
-          expect(error.errors[0].type).to.equal('Validation error');
-          expect(error.errors[0].path).to.equal('validatePassword');
-          done();
-        });
-    });
+      (done) => {
+        db.User.create(helper.invalidPasswordUser)
+          .then()
+          .catch((error) => {
+            expect(error.errors[0].message)
+              .to.equal('Minimum of 8 characters is required');
+            expect(error.errors[0].type).to.equal('Validation error');
+            expect(error.errors[0].path).to.equal('validatePassword');
+            done();
+          });
+      });
   });
 
   describe('Unique', () => {
-    uniqueFields.forEach((field) => {
+    it(`should fails for existing ${uniqueFields[0]}`, (done) => {
       const uniqueTest = Object.assign({}, helper.firstUser);
-      uniqueTest[field] = helper.regularUser1[field];
-      it(`should fails for existing ${field}`, (done) => {
-        db.User.create(uniqueTest)
+      const username = uniqueFields[0];
+      uniqueTest[username] = helper.regularUser1[username];
+      db.User.create(uniqueTest)
         .then()
         .catch((error) => {
-          expect(error.errors[0].message).to.equal(`${field} already exist`);
+          expect(error.errors[0].message).to.equal('username already exist');
           expect(error.errors[0].type).to.equal('unique violation');
-          expect(error.errors[0].path).to.equal(field);
           done();
         });
-      });
+    });
+
+    it(`should fails for existing ${uniqueFields[1]}`, (done) => {
+      const uniqueTest = Object.assign({}, helper.firstUser);
+      const email = uniqueFields[1];
+      uniqueTest[email] = helper.regularUser1[email];
+      db.User.create(uniqueTest)
+        .then()
+        .catch((error) => {
+          expect(error.errors[0].message).to.equal('email must be unique');
+          expect(error.errors[0].type).to.equal('unique violation');
+          done();
+        });
     });
   });
 
@@ -123,7 +142,11 @@ describe('User Model', () => {
   describe('Login In', () => {
     let decryptPassword;
     it('should login a user', () => {
-      db.User.findOne({ where: { email: regularUser.email } })
+      db.User.findOne({
+          where: {
+            email: regularUser.email
+          }
+        })
         .then((user) => {
           decryptPassword = user.validPassword(helper.regularUser1.password);
           expect(decryptPassword).to.be.equal(true);
@@ -135,14 +158,17 @@ describe('User Model', () => {
   describe('Update user', () => {
     const updatedUser = {};
     beforeEach((done) => {
-      const updateD = { firstname: 'olawale', password: 'newnewnewnew' };
+      const updateD = {
+        firstname: 'olawale',
+        password: 'newnewnewnew'
+      };
       db.User.findById(regularUser.id)
         .then((user) => {
           user.update(updateD)
-          .then((upUser) => {
-            Object.assign(updatedUser, upUser.dataValues);
-            done();
-          });
+            .then((upUser) => {
+              Object.assign(updatedUser, upUser.dataValues);
+              done();
+            });
         });
     });
 

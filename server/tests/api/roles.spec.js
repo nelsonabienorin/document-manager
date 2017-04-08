@@ -47,13 +47,13 @@ describe('ROLE API', () => {
     });
 
     it('should return error when role title already exist', (done) => {
-      regularRoleParams.id = 44;
       superRequest.post('/api/roles')
         .send(regularRoleParams)
         .set({ 'x-access-token': adminToken })
         .end((err, res) => {
+          const checkUnique = /unique/.test(res.body.errorArray[0].message)
           expect(res.status).to.equal(400);
-          expect(res.body.errorArray[0].message).to.equal('role already exist');
+          expect(checkUnique).to.be.true;
           done();
         });
     });

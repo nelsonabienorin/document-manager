@@ -7,7 +7,7 @@ import helper from '../helper/test.helper';
 const superRequest = request.agent(app);
 const expect = chai.expect;
 
-let newAdminUser, adminToken, regularToken;
+let newAdminUser, regularUser, adminToken, regularToken;
 const emptyValue = ['userName', 'lastName', 'firstName', 'password', 'email'];
 const uniqueField = ['userName', 'email'];
 const adminUser = helper.adminUser1;
@@ -44,13 +44,13 @@ describe('User API :', () => {
           .end((error, response) => {
             regularUser = response.body.user;
             expect(response.status).to.equal(201);
-            expect(response.body.user.userName)
+            expect(regularUser.userName)
               .to.equal(helper.regularUser1.userName);
-            expect(response.body.user.firstName)
+            expect(regularUser.firstName)
               .to.equal(helper.regularUser1.firstName);
-            expect(response.body.user.lastName)
+            expect(regularUser.lastName)
               .to.equal(helper.regularUser1.lastName);
-            expect(response.body.user.roleId).to.equal(2);
+            expect(regularUser.roleId).to.equal(2);
             done();
           });
       });
@@ -139,8 +139,8 @@ describe('User API :', () => {
       });
 
       it('should not allow user to update another user record', (done) => {
-        updateProfile = { firstName: 'Markafina' };
-        superRequest.put(`/api/users/${regularUser1.id}`)
+        const updateProfile = { firstName: 'Markafina' };
+        superRequest.put(`/api/users/${helper.regularUser1.id}`)
         .send(updateProfile)
         .set({ 'x-access-token': regularToken })
         .end((err, res) => {

@@ -77,11 +77,12 @@ const Document = {
     */
   update(req, res) {
     req.docInstance.update(req.body)
-      .then(updatedDocument => res.status(200)
-        .send({
+      .then((updatedDocument) => {
+        res.status(200).send({
           message: 'This document has been updated successfully',
           updatedDocument
-        }))
+        });
+      })
       .catch(error => res.status(500).send(error.errors));
   },
 
