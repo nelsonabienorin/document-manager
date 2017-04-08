@@ -1,6 +1,7 @@
 import React, { propTypes } from 'react';
 import {Modal, Button, Row, Input} from 'react-materialize';
 const RoleListRow = ({ role }) => {
+  console.log(role);
   return (
         <tr>
             <td>{role.id}</td>

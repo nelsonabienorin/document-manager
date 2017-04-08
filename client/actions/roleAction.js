@@ -30,15 +30,15 @@ export const roleSaver = (role) => {
   return (dispatch) => {
     const token = localStorage.getItem('dms-user');
     request
-    .post('/api/roles')
-    .send(role)
-    .set({ 'x-access-token': token })
-    .end((err, res) => {
-      Materialize.toast(res.body.message, 4000, 'rounded');
-      dispatch(createRoleSuccess(role));
-      window.location = '/roles';
-      return res;
-    });
+      .post('/api/roles')
+      .send(role)
+      .set({ 'x-access-token': token })
+      .end((err, res) => {
+        Materialize.toast(res.body.message, 4000, 'rounded');
+        dispatch(createRoleSuccess(role));
+        window.location = '/roles';
+        return res;
+      });
   };
 };
 
@@ -46,12 +46,12 @@ export const fetchRoles = () => {
   return (dispatch) => {
     const token = localStorage.getItem('dms-user');
     request
-    .get('/api/roles')
-    .set({ 'x-access-token': token })
-    .end((err, res) => {
-      Materialize.toast(res.body.message, 4000, 'rounded');
-      dispatch(getRoleSuccess(res.body.roles));
-    });
+      .get('/api/roles')
+      .set({ 'x-access-token': token })
+      .end((err, res) => {
+        Materialize.toast(res.body.message, 4000, 'rounded');
+        dispatch(getRoleSuccess(res.body.roles));
+      });
   };
 };
 

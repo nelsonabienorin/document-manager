@@ -47,6 +47,7 @@ class DocumentList extends React.Component{
    let doc = null;
    if (this.props.documentDetails.documents && this.props.documentDetails.documents.rows) {
     doc = this.props.documentDetails.documents.rows;
+    console.log(doc);
     pagination = this.props.documentDetails.pagination;
     console.log(pagination,"pagination");
    }
