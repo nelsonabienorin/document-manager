@@ -1,0 +1,23 @@
+# Logs
+logs
+*.log
+# Runtime data
+pids
+*.pid
+*.seed
+lib-cov
+coverage
+(http://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+.lock-wscript
+build/Release
+https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
+node_modules
+coverage
+.DS_Store
+.coveralls.yml
+.vscode
+.env
+selenium-debug.log
+screenshots
+reports
